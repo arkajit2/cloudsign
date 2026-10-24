@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-100 text-slate-800 antialiased font-sans;
+  }
+}
+
+/* Custom scrollbars for document page thumbnails and canvas */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Document Paper Shadow Effect */
+.pdf-page-shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Pulse animation for signature field guidance */
+@keyframes docusign-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 2px rgba(14, 140, 230, 0.5), 0 0 15px rgba(14, 140, 230, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(14, 140, 230, 0.8), 0 0 20px rgba(14, 140, 230, 0.4);
+  }
+}
+
+.signature-field-active {
+  animation: docusign-glow 2s infinite ease-in-out;
+}

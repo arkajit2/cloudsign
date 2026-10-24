@@ -1,0 +1,20 @@
+name = "cloudsign"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "./dist"
+
+# Cloudflare D1 Serverless SQL Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "cloudsign-db"
+database_id = "cloudsign-d1-placeholder" # Created via: npx wrangler d1 create cloudsign-db
+
+# Cloudflare R2 Object Storage binding for PDFs & Signatures
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "cloudsign-documents" # Created via: npx wrangler r2 bucket create cloudsign-documents
+
+[vars]
+ENVIRONMENT = "production"
+APP_NAME = "CloudSign"
+AUDIT_TRAIL_ENABLED = "true"
