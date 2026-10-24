@@ -7,12 +7,12 @@ pages_build_output_dir = "./dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "cloudsign-db"
-database_id = "cloudsign-d1-placeholder" # Created via: npx wrangler d1 create cloudsign-db
+database_id = "78c55121-f552-49ff-82ec-171f1a05ffaf"
 
-# Cloudflare R2 Object Storage binding for PDFs & Signatures
-[[r2_buckets]]
-binding = "STORAGE"
-bucket_name = "cloudsign-documents" # Created via: npx wrangler r2 bucket create cloudsign-documents
+# Cloudflare R2 Object Storage binding (Optional - uncomment once R2 is toggled in CF dashboard)
+# [[r2_buckets]]
+# binding = "STORAGE"
+# bucket_name = "cloudsign-documents"
 
 [vars]
 ENVIRONMENT = "production"
