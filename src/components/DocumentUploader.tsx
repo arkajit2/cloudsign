@@ -87,19 +87,19 @@ export const DocumentUploader: React.FC<DocumentUploaderProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
+    <div className="max-w-4xl mx-auto py-12 px-4 text-[#FFFFC5]">
       {/* Hero Header */}
-      <div className="text-center mb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-docusign-100 text-docusign-800 rounded-full text-xs font-semibold mb-3 border border-docusign-200">
-          <Zap className="w-3.5 h-3.5 text-docusign-600 fill-docusign-600" />
-          Powered by Cloudflare Workers & R2 Storage
+      <div className="text-center mb-10">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[rgba(255,255,197,0.08)] text-[#FFFFC5] rounded-full text-xs font-semibold mb-4 border border-[rgba(255,255,197,0.25)]">
+          <Zap className="w-3.5 h-3.5 fill-[#FFFFC5] text-[#FFFFC5]" />
+          Powered by Cloudflare Edge & D1 SQLite
         </div>
-        <h1 className="text-4xl font-extrabold text-navy-900 tracking-tight sm:text-5xl">
+        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl text-[#FFFFC5] drop-shadow-sm">
           Sign documents online in seconds.
         </h1>
-        <p className="mt-3 text-lg text-slate-600 max-w-2xl mx-auto">
-          Load any PDF, place your uploaded handwritten signature, and seal it with an authentic
-          tamper-evident DocuSign audit trail.
+        <p className="mt-3 text-base text-[rgba(255,255,197,0.7)] max-w-2xl mx-auto leading-relaxed">
+          Load any PDF, place your handwritten signature, and seal it with an authentic
+          tamper-evident cryptographic audit trail.
         </p>
       </div>
 
@@ -113,8 +113,8 @@ export const DocumentUploader: React.FC<DocumentUploaderProps> = ({
         onDrop={handleDrop}
         className={`relative border-2 border-dashed rounded-3xl p-10 text-center transition-all duration-200 ${
           isDragging
-            ? 'border-docusign-500 bg-docusign-50/50 scale-[1.01]'
-            : 'border-slate-300 hover:border-slate-400 bg-white shadow-xl shadow-slate-200/50'
+            ? 'border-[#FFFFC5] bg-[rgba(255,255,197,0.08)] scale-[1.01]'
+            : 'border-[rgba(255,255,197,0.25)] hover:border-[rgba(255,255,197,0.5)] bg-[rgba(255,255,197,0.03)] backdrop-blur-sm shadow-2xl'
         }`}
       >
         <input
@@ -127,20 +127,20 @@ export const DocumentUploader: React.FC<DocumentUploaderProps> = ({
         />
 
         <div className="max-w-md mx-auto flex flex-col items-center">
-          <div className="w-20 h-20 bg-gradient-to-tr from-docusign-500 to-blue-600 rounded-3xl flex items-center justify-center text-white shadow-lg shadow-docusign-500/30 mb-6">
-            <UploadCloud className="w-10 h-10 animate-pulse" />
+          <div className="w-20 h-20 bg-[rgba(255,255,197,0.1)] border border-[rgba(255,255,197,0.3)] rounded-3xl flex items-center justify-center text-[#FFFFC5] shadow-lg mb-6">
+            <UploadCloud className="w-10 h-10 animate-pulse text-[#FFFFC5]" />
           </div>
 
-          <h2 className="text-2xl font-bold text-slate-800 mb-2">
+          <h2 className="text-2xl font-bold text-[#FFFFC5] mb-2">
             Upload a document to sign
           </h2>
-          <p className="text-sm text-slate-500 mb-5">
-            Drag and drop your PDF here, or click the button below to browse your files
+          <p className="text-sm text-[rgba(255,255,197,0.65)] mb-5">
+            Drag and drop your PDF here, or choose your file below
           </p>
 
           {/* Signer Name Input on Upload Screen */}
-          <div className="w-full max-w-xs mb-5 text-left bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-            <label className="text-[10px] font-bold text-slate-500 block mb-1 uppercase tracking-wider">
+          <div className="w-full max-w-xs mb-6 text-left bg-[rgba(255,255,197,0.05)] p-3 rounded-2xl border border-[rgba(255,255,197,0.2)]">
+            <label className="text-[10px] font-bold text-[rgba(255,255,197,0.65)] block mb-1 uppercase tracking-wider">
               Signer Full Name
             </label>
             <input
@@ -148,18 +148,18 @@ export const DocumentUploader: React.FC<DocumentUploaderProps> = ({
               value={signerName}
               onChange={(e) => onSignerNameChange?.(e.target.value)}
               placeholder="e.g. John Doe"
-              className="w-full px-2.5 py-1 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-docusign-500 font-semibold text-slate-800"
+              className="w-full px-3 py-1.5 text-xs bg-[rgba(52,21,57,0.7)] border border-[rgba(255,255,197,0.25)] focus:border-[#FFFFC5] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#FFFFC5] font-semibold text-[#FFFFC5] placeholder-[rgba(255,255,197,0.4)] transition"
             />
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full justify-center">
             <label
               htmlFor="pdf-upload"
-              className={`w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-docusign-600 to-docusign-700 hover:from-docusign-700 hover:to-docusign-800 cursor-pointer shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 ${
+              className={`w-full sm:w-auto px-7 py-3 rounded-full font-extrabold text-sm text-[#341539] bg-[#FFFFC5] hover:bg-[#fffff0] cursor-pointer shadow-[0_4px_20px_rgba(255,255,197,0.25)] hover:shadow-[0_8px_30px_rgba(255,255,197,0.4)] hover:-translate-y-0.5 transition flex items-center justify-center gap-2 ${
                 isLoading ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
-              <FileText className="w-4 h-4" />
+              <FileText className="w-4 h-4 stroke-[2.5]" />
               Choose PDF File
             </label>
 
@@ -167,54 +167,54 @@ export const DocumentUploader: React.FC<DocumentUploaderProps> = ({
               type="button"
               onClick={handleLoadSampleAgreement}
               disabled={isLoading}
-              className="w-full sm:w-auto px-5 py-3 rounded-xl font-semibold text-sm text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 hover:border-slate-300 transition flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 py-3 rounded-full font-semibold text-sm text-[#FFFFC5] bg-transparent hover:bg-[rgba(255,255,197,0.08)] border border-[rgba(255,255,197,0.35)] hover:border-[#FFFFC5] transition flex items-center justify-center gap-2"
             >
-              <Zap className="w-4 h-4 text-amber-500" />
+              <Zap className="w-4 h-4 text-[#FFFFC5]" />
               Try Sample NDA
             </button>
           </div>
 
           {isLoading && (
-            <div className="mt-6 flex items-center gap-2 text-sm text-docusign-700 font-medium animate-pulse">
-              <span className="w-2.5 h-2.5 bg-docusign-600 rounded-full animate-ping"></span>
+            <div className="mt-6 flex items-center gap-2 text-sm text-[#FFFFC5] font-medium animate-pulse">
+              <span className="w-2.5 h-2.5 bg-[#FFFFC5] rounded-full animate-ping"></span>
               {loadingMessage}
             </div>
           )}
         </div>
 
         {/* Feature Badges below upload */}
-        <div className="mt-10 pt-8 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-          <div className="flex items-start gap-3">
-            <div className="p-2 bg-blue-50 text-blue-600 rounded-lg shrink-0">
+        <div className="mt-10 pt-8 border-t border-[rgba(255,255,197,0.15)] grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+          <div className="flex items-start gap-3 p-3 bg-[rgba(255,255,197,0.03)] border border-[rgba(255,255,197,0.12)] rounded-2xl">
+            <div className="p-2 bg-[rgba(255,255,197,0.08)] text-[#FFFFC5] rounded-xl shrink-0">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-xs font-bold text-slate-900">DocuSign Certified Trail</h3>
-              <p className="text-[11px] text-slate-500 mt-0.5">
+              <h3 className="text-xs font-bold text-[#FFFFC5]">ESIGN & UETA Audit Trail</h3>
+              <p className="text-[11px] text-[rgba(255,255,197,0.65)] mt-0.5">
                 Generates verifiable Certificate of Completion with SHA-256 hashes.
               </p>
             </div>
           </div>
 
-          <div className="flex items-start gap-3">
-            <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg shrink-0">
+          <div className="flex items-start gap-3 p-3 bg-[rgba(255,255,197,0.03)] border border-[rgba(255,255,197,0.12)] rounded-2xl">
+            <div className="p-2 bg-[rgba(255,255,197,0.08)] text-[#FFFFC5] rounded-xl shrink-0">
               <Lock className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-xs font-bold text-slate-900">Cloudflare Protected</h3>
-              <p className="text-[11px] text-slate-500 mt-0.5">
+              <h3 className="text-xs font-bold text-[#FFFFC5]">Cloudflare Protected</h3>
+              <p className="text-[11px] text-[rgba(255,255,197,0.65)] mt-0.5">
                 Global edge execution, encrypted storage with Cloudflare R2 & D1.
               </p>
             </div>
           </div>
 
-          <div className="flex items-start gap-3">
-            <div className="p-2 bg-amber-50 text-amber-600 rounded-lg shrink-0">
+          <div className="flex items-start gap-3 p-3 bg-[rgba(255,255,197,0.03)] border border-[rgba(255,255,197,0.12)] rounded-2xl">
+            <div className="p-2 bg-[rgba(255,255,197,0.08)] text-[#FFFFC5] rounded-xl shrink-0">
               <CheckCircle2 className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-xs font-bold text-slate-900">Handwritten Ink Isolation</h3>
-              <p className="text-[11px] text-slate-500 mt-0.5">
+              <h3 className="text-xs font-bold text-[#FFFFC5]">Handwritten Ink Isolation</h3>
+              <p className="text-[11px] text-[rgba(255,255,197,0.65)] mt-0.5">
                 Upload your signature on paper, we isolate pure ink transparently.
               </p>
             </div>

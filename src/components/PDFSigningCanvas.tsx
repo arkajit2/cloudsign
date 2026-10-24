@@ -229,21 +229,21 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
   const signedFieldsCount = fields.filter((f) => f.type === 'signature' && f.signatureDataUrl).length;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-64px)] bg-slate-900 text-slate-100 overflow-hidden select-none">
+    <div className="flex flex-col h-[calc(100vh-64px)] bg-[#200b24] text-[#FFFFC5] overflow-hidden select-none">
       {/* Top Navbar */}
-      <div className="h-14 bg-navy-900 border-b border-navy-800 px-6 flex items-center justify-between z-20 shrink-0">
+      <div className="h-14 bg-[#341539] border-b border-[rgba(255,255,197,0.18)] px-6 flex items-center justify-between z-20 shrink-0">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-docusign-600/20 text-docusign-400 rounded-lg">
+          <div className="p-2 bg-[rgba(255,255,197,0.08)] text-[#FFFFC5] rounded-xl border border-[rgba(255,255,197,0.2)]">
             <FileText className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-white truncate max-w-xs sm:max-w-md">
+            <h2 className="text-sm font-bold text-[#FFFFC5] truncate max-w-xs sm:max-w-md">
               {documentTitle}
             </h2>
-            <div className="text-[11px] text-slate-400 flex items-center gap-2">
+            <div className="text-[11px] text-[rgba(255,255,197,0.65)] flex items-center gap-2">
               <span>{pageCount} Pages</span>
               <span>•</span>
-              <span className="text-emerald-400 font-medium flex items-center gap-1">
+              <span className="text-[#FFFFC5] font-semibold flex items-center gap-1">
                 <CheckCircle className="w-3 h-3" />
                 {signedFieldsCount}/{signatureFieldsCount || 0} Signatures Adopted
               </span>
@@ -252,72 +252,72 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
         </div>
 
         {/* Center: Signer Name Quick-Edit Chip */}
-        <div className="hidden md:flex items-center gap-2 bg-navy-950/80 border border-navy-800 px-3 py-1 rounded-xl">
-          <User className="w-3.5 h-3.5 text-docusign-400 shrink-0" />
-          <span className="text-[11px] text-slate-400">Signer:</span>
+        <div className="hidden md:flex items-center gap-2 bg-[rgba(255,255,197,0.06)] border border-[rgba(255,255,197,0.2)] px-3 py-1 rounded-full">
+          <User className="w-3.5 h-3.5 text-[#FFFFC5] shrink-0" />
+          <span className="text-[11px] text-[rgba(255,255,197,0.65)]">Signer:</span>
           <input
             type="text"
             value={defaultSignerName}
             onChange={(e) => onSignerNameChange?.(e.target.value)}
-            className="bg-transparent text-xs font-bold text-white focus:outline-none focus:ring-1 focus:ring-docusign-400 rounded px-1 w-28 sm:w-36 hover:bg-navy-900 transition"
+            className="bg-transparent text-xs font-bold text-[#FFFFC5] focus:outline-none focus:underline rounded px-1 w-28 sm:w-36 hover:bg-[rgba(255,255,197,0.08)] transition"
             title="Click to edit signer name"
             placeholder="Signer Name"
           />
-          <Edit3 className="w-3 h-3 text-slate-500 pointer-events-none" />
+          <Edit3 className="w-3 h-3 text-[rgba(255,255,197,0.5)] pointer-events-none" />
         </div>
 
         {/* Page Nav & Zoom */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center bg-navy-950/80 rounded-lg p-1 border border-navy-800">
+          <div className="flex items-center bg-[rgba(255,255,197,0.06)] rounded-full p-1 border border-[rgba(255,255,197,0.2)]">
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage <= 1}
-              className="p-1 text-slate-400 hover:text-white disabled:opacity-30 transition rounded"
+              className="p-1 text-[rgba(255,255,197,0.65)] hover:text-[#FFFFC5] disabled:opacity-30 transition rounded-full"
               title="Previous Page"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <span className="px-2 text-xs font-semibold text-slate-300">
+            <span className="px-2.5 text-xs font-semibold text-[#FFFFC5]">
               Page {currentPage} of {pageCount}
             </span>
             <button
               onClick={() => setCurrentPage((p) => Math.min(pageCount, p + 1))}
               disabled={currentPage >= pageCount}
-              className="p-1 text-slate-400 hover:text-white disabled:opacity-30 transition rounded"
+              className="p-1 text-[rgba(255,255,197,0.65)] hover:text-[#FFFFC5] disabled:opacity-30 transition rounded-full"
               title="Next Page"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="hidden sm:flex items-center bg-navy-950/80 rounded-lg p-1 border border-navy-800">
+          <div className="hidden sm:flex items-center bg-[rgba(255,255,197,0.06)] rounded-full p-1 border border-[rgba(255,255,197,0.2)]">
             <button
               onClick={() => setZoomScale((z) => Math.max(0.75, z - 0.15))}
-              className="p-1 text-slate-400 hover:text-white transition rounded"
+              className="p-1 text-[rgba(255,255,197,0.65)] hover:text-[#FFFFC5] transition rounded-full"
               title="Zoom Out"
             >
               <ZoomOut className="w-4 h-4" />
             </button>
-            <span className="px-2 text-xs font-mono text-slate-300">
+            <span className="px-2 text-xs font-mono text-[#FFFFC5]">
               {Math.round(zoomScale * 100)}%
             </span>
             <button
               onClick={() => setZoomScale((z) => Math.min(2.0, z + 0.15))}
-              className="p-1 text-slate-400 hover:text-white transition rounded"
+              className="p-1 text-[rgba(255,255,197,0.65)] hover:text-[#FFFFC5] transition rounded-full"
               title="Zoom In"
             >
               <ZoomIn className="w-4 h-4" />
             </button>
           </div>
 
-          {/* DocuSign Action Button */}
+          {/* Action Button */}
           <button
             onClick={onCompleteSigning}
             disabled={isProcessing || fields.length === 0}
-            className="px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 disabled:opacity-40 shadow-lg shadow-emerald-500/20 transition flex items-center gap-2"
+            className="px-6 py-2 rounded-full text-xs sm:text-sm font-extrabold text-[#341539] bg-[#FFFFC5] hover:bg-[#fffff0] disabled:opacity-40 shadow-[0_4px_16px_rgba(255,255,197,0.25)] hover:shadow-[0_8px_24px_rgba(255,255,197,0.4)] hover:-translate-y-0.5 transition flex items-center gap-2"
           >
-            <CheckCircle className="w-4 h-4" />
-            {isProcessing ? 'Burning Signatures...' : 'Finish & Sign Document'}
+            <CheckCircle className="w-4 h-4 stroke-[2.5]" />
+            {isProcessing ? 'Sealing Document...' : 'Finish & Sign Document'}
           </button>
         </div>
       </div>
@@ -325,22 +325,22 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
       {/* Main Workspace Body */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left Toolbar */}
-        <div className="w-64 bg-navy-900 border-r border-navy-800 p-4 flex flex-col justify-between shrink-0 z-10 overflow-y-auto">
+        <div className="w-64 bg-[#2b1030] border-r border-[rgba(255,255,197,0.15)] p-4 flex flex-col justify-between shrink-0 z-10 overflow-y-auto">
           <div className="space-y-4">
             {/* Signer Profile Card */}
-            <div className="p-3 bg-navy-950/90 border border-navy-800 rounded-xl space-y-2.5">
+            <div className="p-3 bg-[rgba(255,255,197,0.05)] border border-[rgba(255,255,197,0.18)] rounded-2xl space-y-2.5">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-docusign-400" />
+                <span className="text-[11px] font-bold text-[#FFFFC5] uppercase tracking-wider flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-[#FFFFC5]" />
                   Signer Details
                 </span>
-                <span className="text-[10px] text-docusign-400 font-semibold flex items-center gap-1">
+                <span className="text-[10px] text-[#FFFFC5] font-semibold flex items-center gap-1 opacity-75">
                   <Edit3 className="w-3 h-3" /> Edit
                 </span>
               </div>
 
               <div>
-                <label className="text-[10px] text-slate-400 block mb-1 font-medium">
+                <label className="text-[10px] text-[rgba(255,255,197,0.65)] block mb-1 font-medium">
                   Signer Full Name:
                 </label>
                 <input
@@ -348,13 +348,13 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                   value={defaultSignerName}
                   onChange={(e) => onSignerNameChange?.(e.target.value)}
                   placeholder="e.g. John Doe"
-                  className="w-full px-2.5 py-1.5 text-xs bg-navy-900 border border-navy-700 focus:border-docusign-500 rounded-lg text-white font-medium focus:outline-none focus:ring-1 focus:ring-docusign-500 transition shadow-inner"
+                  className="w-full px-2.5 py-1.5 text-xs bg-[rgba(52,21,57,0.8)] border border-[rgba(255,255,197,0.2)] focus:border-[#FFFFC5] rounded-xl text-[#FFFFC5] font-semibold focus:outline-none focus:ring-1 focus:ring-[#FFFFC5] transition shadow-inner placeholder-[rgba(255,255,197,0.4)]"
                 />
               </div>
 
               {signerEmail !== undefined && (
                 <div>
-                  <label className="text-[10px] text-slate-400 block mb-1 font-medium">
+                  <label className="text-[10px] text-[rgba(255,255,197,0.65)] block mb-1 font-medium">
                     Signer Email:
                   </label>
                   <input
@@ -362,17 +362,17 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                     value={signerEmail}
                     onChange={(e) => onSignerEmailChange?.(e.target.value)}
                     placeholder="signer@example.com"
-                    className="w-full px-2.5 py-1.5 text-xs bg-navy-900 border border-navy-700 focus:border-docusign-500 rounded-lg text-white font-medium focus:outline-none focus:ring-1 focus:ring-docusign-500 transition shadow-inner"
+                    className="w-full px-2.5 py-1.5 text-xs bg-[rgba(52,21,57,0.8)] border border-[rgba(255,255,197,0.2)] focus:border-[#FFFFC5] rounded-xl text-[#FFFFC5] font-semibold focus:outline-none focus:ring-1 focus:ring-[#FFFFC5] transition shadow-inner placeholder-[rgba(255,255,197,0.4)]"
                   />
                 </div>
               )}
             </div>
 
             <div>
-              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+              <div className="text-[11px] font-bold text-[rgba(255,255,197,0.7)] uppercase tracking-wider mb-2">
                 Standard Fields
               </div>
-              <p className="text-[11px] text-slate-400 mb-3">
+              <p className="text-[11px] text-[rgba(255,255,197,0.6)] mb-3">
                 Click to place fields on Page {currentPage}. Drag anywhere to position.
               </p>
 
@@ -380,20 +380,20 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                 <button
                   type="button"
                   onClick={() => addField('signature')}
-                  className="w-full p-2.5 bg-docusign-600/15 hover:bg-docusign-600/25 border border-docusign-500/40 hover:border-docusign-400 rounded-xl text-left transition flex items-center justify-between group"
+                  className="w-full p-2.5 bg-[rgba(255,255,197,0.06)] hover:bg-[rgba(255,255,197,0.12)] border border-[rgba(255,255,197,0.22)] hover:border-[#FFFFC5] rounded-2xl text-left transition flex items-center justify-between group"
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded-lg bg-docusign-500 text-white flex items-center justify-center shadow-md">
-                      <PenTool className="w-3.5 h-3.5" />
+                    <div className="w-7 h-7 rounded-xl bg-[#FFFFC5] text-[#341539] flex items-center justify-center shadow-md">
+                      <PenTool className="w-3.5 h-3.5 stroke-[2.5]" />
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-white group-hover:text-docusign-300 transition">
+                      <div className="text-xs font-bold text-[#FFFFC5] group-hover:underline transition">
                         Signature Field
                       </div>
-                      <div className="text-[10px] text-slate-400">Adopt uploaded or drawn</div>
+                      <div className="text-[10px] text-[rgba(255,255,197,0.6)]">Adopt uploaded or drawn</div>
                     </div>
                   </div>
-                  <span className="text-xs text-docusign-400 font-bold opacity-0 group-hover:opacity-100 transition">
+                  <span className="text-xs text-[#FFFFC5] font-bold opacity-0 group-hover:opacity-100 transition">
                     + Add
                   </span>
                 </button>
@@ -401,20 +401,20 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                 <button
                   type="button"
                   onClick={() => addField('name')}
-                  className="w-full p-2.5 bg-navy-800/80 hover:bg-navy-800 border border-navy-700 hover:border-slate-600 rounded-xl text-left transition flex items-center justify-between group"
+                  className="w-full p-2.5 bg-[rgba(255,255,197,0.04)] hover:bg-[rgba(255,255,197,0.1)] border border-[rgba(255,255,197,0.18)] hover:border-[#FFFFC5] rounded-2xl text-left transition flex items-center justify-between group"
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded-lg bg-slate-700 text-slate-200 flex items-center justify-center">
+                    <div className="w-7 h-7 rounded-xl bg-[rgba(255,255,197,0.15)] text-[#FFFFC5] flex items-center justify-center">
                       <User className="w-3.5 h-3.5" />
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-white">Signer Name</div>
-                      <div className="text-[10px] text-slate-400 truncate max-w-[110px]">
+                      <div className="text-xs font-bold text-[#FFFFC5]">Signer Name</div>
+                      <div className="text-[10px] text-[rgba(255,255,197,0.6)] truncate max-w-[110px]">
                         {defaultSignerName}
                       </div>
                     </div>
                   </div>
-                  <span className="text-xs text-slate-400 font-bold opacity-0 group-hover:opacity-100 transition">
+                  <span className="text-xs text-[#FFFFC5] font-bold opacity-0 group-hover:opacity-100 transition">
                     + Add
                   </span>
                 </button>
@@ -422,18 +422,18 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                 <button
                   type="button"
                   onClick={() => addField('date')}
-                  className="w-full p-2.5 bg-navy-800/80 hover:bg-navy-800 border border-navy-700 hover:border-slate-600 rounded-xl text-left transition flex items-center justify-between group"
+                  className="w-full p-2.5 bg-[rgba(255,255,197,0.04)] hover:bg-[rgba(255,255,197,0.1)] border border-[rgba(255,255,197,0.18)] hover:border-[#FFFFC5] rounded-2xl text-left transition flex items-center justify-between group"
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded-lg bg-slate-700 text-slate-200 flex items-center justify-center">
+                    <div className="w-7 h-7 rounded-xl bg-[rgba(255,255,197,0.15)] text-[#FFFFC5] flex items-center justify-center">
                       <Calendar className="w-3.5 h-3.5" />
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-white">Date Signed</div>
-                      <div className="text-[10px] text-slate-400">Auto-stamped today</div>
+                      <div className="text-xs font-bold text-[#FFFFC5]">Date Signed</div>
+                      <div className="text-[10px] text-[rgba(255,255,197,0.6)]">Auto-stamped today</div>
                     </div>
                   </div>
-                  <span className="text-xs text-slate-400 font-bold opacity-0 group-hover:opacity-100 transition">
+                  <span className="text-xs text-[#FFFFC5] font-bold opacity-0 group-hover:opacity-100 transition">
                     + Add
                   </span>
                 </button>
@@ -442,13 +442,13 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
           </div>
 
           {/* Quick Tip Card */}
-          <div className="p-3 bg-navy-950/70 border border-navy-800 rounded-xl text-slate-400 text-xs space-y-1 mt-4">
-            <div className="flex items-center gap-1.5 font-bold text-amber-400 text-[11px]">
-              <Sparkles className="w-3.5 h-3.5" />
-              Direct Editing
+          <div className="p-3 bg-[rgba(255,255,197,0.04)] border border-[rgba(255,255,197,0.15)] rounded-2xl text-[rgba(255,255,197,0.7)] text-xs space-y-1 mt-4">
+            <div className="flex items-center gap-1.5 font-bold text-[#FFFFC5] text-[11px]">
+              <Sparkles className="w-3.5 h-3.5 text-[#FFFFC5]" />
+              Interactive Placement
             </div>
             <p className="text-[11px] leading-relaxed">
-              Click directly on any Signer Name or Date field on the document to edit its text.
+              Drag fields anywhere on the page. Click directly on any text or name box to edit its contents.
             </p>
           </div>
         </div>
@@ -456,12 +456,12 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
         {/* Center PDF Viewer Viewport */}
         <div
           ref={containerRef}
-          className="flex-1 overflow-auto bg-slate-950 p-8 flex items-start justify-center relative"
+          className="flex-1 overflow-auto bg-[#200b24] p-8 flex items-start justify-center relative"
           onClick={() => setSelectedFieldId(null)}
         >
           {/* Document Page Canvas Container */}
-          <div className="relative inline-block pdf-page-shadow bg-white rounded transition-all">
-            <canvas ref={canvasRef} className="block rounded shadow-2xl" />
+          <div className="relative inline-block pdf-page-shadow bg-white rounded-lg transition-all">
+            <canvas ref={canvasRef} className="block rounded-lg shadow-2xl" />
 
             {/* Placed Fields Overlay on Active Page */}
             {currentPageFields.map((field) => {
@@ -485,14 +485,14 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                     width: `${field.width}%`,
                     height: `${field.height}%`,
                   }}
-                  className={`cursor-move group border-2 rounded transition-colors flex items-center justify-center select-none ${
+                  className={`cursor-move group border-2 rounded-lg transition-colors flex items-center justify-center select-none ${
                     field.type === 'signature'
                       ? isSelected
-                        ? 'border-docusign-600 bg-docusign-500/10 signature-field-active'
-                        : 'border-docusign-500/80 bg-docusign-500/5 hover:border-docusign-500'
+                        ? 'border-[#341539] bg-[rgba(52,21,57,0.15)] signature-field-active'
+                        : 'border-[#341539]/80 bg-[rgba(52,21,57,0.06)] hover:border-[#341539]'
                       : isSelected
-                      ? 'border-amber-500 bg-amber-500/15'
-                      : 'border-slate-400/80 bg-slate-200/30 hover:border-slate-500'
+                      ? 'border-[#341539] bg-[rgba(52,21,57,0.12)]'
+                      : 'border-[#341539]/60 bg-white/70 hover:border-[#341539]'
                   }`}
                 >
                   {/* Field Content: Interactive inputs for direct typing */}
@@ -504,8 +504,8 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                         className="w-full h-full object-contain pointer-events-none p-1"
                       />
                     ) : (
-                      <div className="flex items-center gap-1.5 text-docusign-700 font-bold text-xs pointer-events-none">
-                        <PenTool className="w-3.5 h-3.5" />
+                      <div className="flex items-center gap-1.5 text-[#341539] font-extrabold text-xs pointer-events-none">
+                        <PenTool className="w-3.5 h-3.5 stroke-[2.5]" />
                         <span>Sign Here</span>
                       </div>
                     )
@@ -520,7 +520,6 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                             f.id === field.id ? { ...f, value: val, signerName: val } : f
                           )
                         );
-                        // Also sync to global signer name if editing the name field
                         if (field.type === 'name') {
                           onSignerNameChange?.(val);
                         }
@@ -531,7 +530,7 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                         setSelectedFieldId(field.id);
                       }}
                       placeholder="Type name here..."
-                      className="w-full h-full bg-white/95 text-slate-900 font-bold text-xs px-2 text-center rounded border border-transparent focus:border-docusign-500 focus:outline-none focus:ring-1 focus:ring-docusign-500 shadow-sm transition"
+                      className="w-full h-full bg-white/95 text-[#341539] font-bold text-xs px-2 text-center rounded border border-transparent focus:border-[#341539] focus:outline-none focus:ring-1 focus:ring-[#341539] shadow-sm transition"
                     />
                   ) : field.type === 'date' ? (
                     <input
@@ -549,15 +548,15 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                         setSelectedFieldId(field.id);
                       }}
                       placeholder="YYYY-MM-DD"
-                      className="w-full h-full bg-white/95 text-slate-900 font-mono text-xs px-2 text-center rounded border border-transparent focus:border-docusign-500 focus:outline-none focus:ring-1 focus:ring-docusign-500 shadow-sm transition"
+                      className="w-full h-full bg-white/95 text-[#341539] font-mono text-xs px-2 text-center rounded border border-transparent focus:border-[#341539] focus:outline-none focus:ring-1 focus:ring-[#341539] shadow-sm transition"
                     />
                   ) : null}
 
                   {/* Field Actions Toolbar (when selected or hovered) */}
                   <div
-                    className={`absolute -top-7 right-0 flex items-center gap-1 bg-navy-900 border border-navy-700 rounded px-1.5 py-0.5 shadow-md ${
+                    className={`absolute -top-7 right-0 flex items-center gap-1 bg-[#341539] border border-[rgba(255,255,197,0.3)] rounded-full px-2 py-0.5 shadow-md ${
                       isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                    } transition-opacity z-10`}
+                    } transition-opacity z-10 text-[#FFFFC5]`}
                   >
                     {field.type === 'signature' && (
                       <button
@@ -566,7 +565,7 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                           e.stopPropagation();
                           onOpenSignatureModal(field.id);
                         }}
-                        className="text-[10px] text-docusign-400 hover:text-white px-1 py-0.5 rounded font-semibold transition"
+                        className="text-[10px] text-[#FFFFC5] hover:underline px-1 py-0.5 font-bold transition"
                       >
                         Change
                       </button>
@@ -574,7 +573,7 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                     <button
                       type="button"
                       onClick={(e) => removeField(field.id, e)}
-                      className="text-slate-400 hover:text-red-400 p-0.5 rounded transition"
+                      className="text-[rgba(255,255,197,0.7)] hover:text-red-400 p-0.5 rounded transition"
                       title="Delete Field"
                     >
                       <Trash2 className="w-3 h-3" />
@@ -584,10 +583,10 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                   {/* Resize Handle (Bottom-Right) */}
                   <div
                     onMouseDown={(e) => handleResizeMouseDown(field.id, e)}
-                    className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-docusign-600 rounded-sm cursor-se-resize border border-white shadow-sm flex items-center justify-center"
+                    className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#341539] rounded-sm cursor-se-resize border border-[#FFFFC5] shadow-sm flex items-center justify-center"
                     title="Resize Field"
                   >
-                    <Maximize2 className="w-2 h-2 text-white" />
+                    <Maximize2 className="w-2 h-2 text-[#FFFFC5]" />
                   </div>
                 </div>
               );

@@ -1,5 +1,5 @@
 # CloudSign 🖋️⚡
-> **An enterprise-grade, DocuSign-alternative built 100% on Cloudflare (Pages, Functions, R2, D1) with automated GitHub Actions CI/CD.**
+> **An enterprise-grade, zero-trust electronic signature platform built 100% on Cloudflare (Pages, Functions, R2, D1) with automated GitHub Actions CI/CD.**
 
 [![Cloudflare Pages](https://img.shields.io/badge/Hosted%20on-Cloudflare%20Pages-F38020?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com/)
 [![Cloudflare R2](https://img.shields.io/badge/Storage-Cloudflare%20R2-F38020?logo=cloudflare&logoColor=white)](https://www.cloudflare.com/developer-platform/r2/)
@@ -15,10 +15,10 @@
 - 🖋️ **Uploaded Signature with Smart Ink Isolation**:
   - Users can upload a photo or scan of their handwritten signature on paper.
   - **Auto Background Cleaner**: Intelligently strips gray/yellow paper backgrounds to 100% transparent PNG.
-  - **Ink Contrast Booster**: Enhances strokes into DocuSign Navy Blue (`#0f3d82`) or Midnight Black (`#111827`).
+  - **Ink Contrast Booster**: Enhances strokes into Fraoula Plum Ink (`#341539`) or Midnight Black (`#111827`).
 - ✍️ **Draw & Type Signatures**: Smooth HTML5 bezier ink drawing and 4 digital cursive calligraphy fonts (*Dancing Script, Pacifico, Great Vibes, Homemade Apple*).
 - 🎯 **Interactive Drag-and-Drop Placement**: Place signature, date, and name fields anywhere on any page with live resize handles and percentage coordinates.
-- 📜 **DocuSign Certificate of Completion**:
+- 📜 **Cryptographic Certificate of Completion**:
   - Automatically appends a tamper-evident audit certificate page.
   - Original and Signed document **SHA-256 cryptographic checksums**.
   - Signer identity, UTC timestamp, IP address, and Cloudflare Edge colocation ID.

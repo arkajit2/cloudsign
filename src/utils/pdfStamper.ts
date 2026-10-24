@@ -219,7 +219,7 @@ export async function stampDocument(options: StampOptions): Promise<StampResult>
 
   const completedAt = new Date().toISOString();
 
-  // 2. Append DocuSign-style Certificate of Completion if enabled
+  // 2. Append Certificate of Completion if enabled
   if (appendCertificate) {
     try {
       const certPage = pdfDoc.addPage([595.28, 841.89]); // Standard A4 (Points)
@@ -231,7 +231,7 @@ export async function stampDocument(options: StampOptions): Promise<StampResult>
         y: cH - 85,
         width: cW,
         height: 85,
-        color: rgb(0.03, 0.12, 0.25), // Cloudflare/DocuSign Deep Navy
+        color: rgb(0.204, 0.082, 0.224), // Fraoula Deep Plum #341539
       });
 
       certPage.drawText('CloudSign Certificate of Completion', {
@@ -239,7 +239,7 @@ export async function stampDocument(options: StampOptions): Promise<StampResult>
         y: cH - 45,
         size: 20,
         font: helveticaBold,
-        color: rgb(1, 1, 1),
+        color: rgb(1, 1, 0.773), // Fraoula Cream #FFFFC5
       });
 
       certPage.drawText('Secured via Cloudflare Edge Network | Cryptographic Tamper-Evident Audit Record', {
@@ -247,7 +247,7 @@ export async function stampDocument(options: StampOptions): Promise<StampResult>
         y: cH - 65,
         size: 9,
         font: helvetica,
-        color: rgb(0.7, 0.85, 1),
+        color: rgb(0.95, 0.95, 0.8), // Fraoula Cream
       });
 
       // Envelope & Document Summary Box

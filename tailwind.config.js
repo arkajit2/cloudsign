@@ -7,23 +7,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        docusign: {
-          50: '#f0f7ff',
-          100: '#e0effe',
-          200: '#bae0fd',
-          300: '#7cc7fb',
-          400: '#38a8f6',
-          500: '#0e8ce6',
-          600: '#026fc4',
-          700: '#03589f',
-          800: '#074b83',
-          900: '#0c3f6e',
-          950: '#082849',
-        },
-        navy: {
-          800: '#0e1e38',
-          900: '#0a1628',
-          950: '#050c17',
+        fraoula: {
+          bg: '#341539', // Deep Plum
+          fg: '#FFFFC5', // Warm Vanilla / Cream
+          surface: 'rgba(255, 255, 197, 0.05)',
+          surfaceHover: 'rgba(255, 255, 197, 0.1)',
+          border: 'rgba(255, 255, 197, 0.2)',
+          borderHover: 'rgba(255, 255, 197, 0.45)',
+          muted: 'rgba(255, 255, 197, 0.7)',
+          dark: '#260d2a',
+          darker: '#1d0920',
         }
       },
       fontFamily: {

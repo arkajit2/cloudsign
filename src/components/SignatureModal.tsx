@@ -14,31 +14,10 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
   isOpen,
   onClose,
   onSaveSignature,
-  defaultName = 'John Doe',
+  defaultName = 'Jane Doe',
 }) => {
   const [activeTab, setActiveTab] = useState<'upload' | 'draw' | 'type'>('upload');
   const [signerName, setSignerName] = useState(defaultName);
-
-  // Upload Tab State
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [processedSignatureUrl, setProcessedSignatureUrl] = useState<string | null>(null);
-  const [processingOptions, setProcessingOptions] = useState<SignatureProcessingOptions>({
-    removeBackground: true,
-    threshold: 215,
-    inkColor: 'blue',
-    autoCrop: true,
-  });
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  // Draw Tab State
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [drawColor, setDrawColor] = useState<'#0f3d82' | '#111827'>('#0f3d82');
-  const [strokeWidth, setStrokeWidth] = useState<number>(2.5);
-  const [hasDrawnContent, setHasDrawnContent] = useState(false);
-
-  // Type Tab State
-  const [selectedFontStyle, setSelectedFontStyle] = useState<string>('font-signature1');
 
   // Synchronize signerName when defaultName or modal opens
   useEffect(() => {
@@ -46,6 +25,27 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
       setSignerName(defaultName);
     }
   }, [defaultName, isOpen]);
+
+  // Upload Tab State
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [processedSignatureUrl, setProcessedSignatureUrl] = useState<string | null>(null);
+  const [processingOptions, setProcessingOptions] = useState<SignatureProcessingOptions>({
+    removeBackground: true,
+    threshold: 215,
+    inkColor: 'plum',
+    autoCrop: true,
+  });
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  // Draw Tab State
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [drawColor, setDrawColor] = useState<'#341539' | '#111827'>('#341539');
+  const [strokeWidth, setStrokeWidth] = useState<number>(2.8);
+  const [hasDrawnContent, setHasDrawnContent] = useState(false);
+
+  // Type Tab State
+  const [selectedFontStyle, setSelectedFontStyle] = useState<string>('font-signature1');
 
   // Trigger processing when file or options change
   useEffect(() => {
@@ -140,7 +140,7 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
     if (!ctx) return '';
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#0f3d82'; // DocuSign blue
+    ctx.fillStyle = '#341539'; // Fraoula Plum
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
@@ -176,30 +176,30 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/70 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#200b24]/85 backdrop-blur-md animate-fadeIn text-[#FFFFC5]">
+      <div className="bg-[#341539] rounded-3xl shadow-2xl max-w-2xl w-full border border-[rgba(255,255,197,0.25)] overflow-hidden flex flex-col max-h-[90vh]">
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-slate-50 to-white">
+        <div className="px-6 py-4 border-b border-[rgba(255,255,197,0.18)] flex items-center justify-between">
           <div>
-            <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <PenTool className="w-5 h-5 text-docusign-600" />
+            <h3 className="text-xl font-bold text-[#FFFFC5] flex items-center gap-2">
+              <PenTool className="w-5 h-5 text-[#FFFFC5]" />
               Create & Adopt Signature
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Upload your actual signature or draw/type to place on the document
+            <p className="text-xs text-[rgba(255,255,197,0.65)] mt-0.5">
+              Upload your handwritten signature or draw/type to place on the document
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition"
+            className="p-2 text-[rgba(255,255,197,0.6)] hover:text-[#FFFFC5] hover:bg-[rgba(255,255,197,0.1)] rounded-full transition"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Signer Name Input */}
-        <div className="px-6 pt-4 pb-2 bg-slate-50/50 border-b border-slate-100 flex items-center gap-4">
-          <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 whitespace-nowrap">
+        <div className="px-6 pt-4 pb-3 bg-[rgba(255,255,197,0.03)] border-b border-[rgba(255,255,197,0.15)] flex items-center gap-4">
+          <label className="text-xs font-semibold uppercase tracking-wider text-[rgba(255,255,197,0.65)] whitespace-nowrap">
             Signer Full Name:
           </label>
           <input
@@ -207,45 +207,45 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
             value={signerName}
             onChange={(e) => setSignerName(e.target.value)}
             placeholder="e.g. Jane Doe"
-            className="flex-1 px-3 py-1.5 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-docusign-500 focus:border-transparent font-medium"
+            className="flex-1 px-3 py-1.5 text-sm bg-[rgba(52,21,57,0.8)] border border-[rgba(255,255,197,0.25)] focus:border-[#FFFFC5] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#FFFFC5] font-semibold text-[#FFFFC5] placeholder-[rgba(255,255,197,0.4)]"
           />
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-slate-200 bg-slate-100/60 p-1.5 gap-1.5">
+        <div className="flex border-b border-[rgba(255,255,197,0.15)] bg-[rgba(255,255,197,0.02)] p-2 gap-2">
           <button
             onClick={() => setActiveTab('upload')}
-            className={`flex-1 py-2 px-3 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition ${
+            className={`flex-1 py-2 px-3 rounded-full text-xs font-bold flex items-center justify-center gap-2 transition ${
               activeTab === 'upload'
-                ? 'bg-white text-docusign-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                ? 'bg-[#FFFFC5] text-[#341539] shadow-md'
+                : 'text-[#FFFFC5] hover:bg-[rgba(255,255,197,0.08)]'
             }`}
           >
-            <Upload className="w-4 h-4" />
+            <Upload className="w-3.5 h-3.5" />
             Upload Signature Image
           </button>
 
           <button
             onClick={() => setActiveTab('draw')}
-            className={`flex-1 py-2 px-3 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition ${
+            className={`flex-1 py-2 px-3 rounded-full text-xs font-bold flex items-center justify-center gap-2 transition ${
               activeTab === 'draw'
-                ? 'bg-white text-docusign-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                ? 'bg-[#FFFFC5] text-[#341539] shadow-md'
+                : 'text-[#FFFFC5] hover:bg-[rgba(255,255,197,0.08)]'
             }`}
           >
-            <PenTool className="w-4 h-4" />
+            <PenTool className="w-3.5 h-3.5" />
             Draw Signature
           </button>
 
           <button
             onClick={() => setActiveTab('type')}
-            className={`flex-1 py-2 px-3 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition ${
+            className={`flex-1 py-2 px-3 rounded-full text-xs font-bold flex items-center justify-center gap-2 transition ${
               activeTab === 'type'
-                ? 'bg-white text-docusign-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                ? 'bg-[#FFFFC5] text-[#341539] shadow-md'
+                : 'text-[#FFFFC5] hover:bg-[rgba(255,255,197,0.08)]'
             }`}
           >
-            <Type className="w-4 h-4" />
+            <Type className="w-3.5 h-3.5" />
             Type Signature
           </button>
         </div>
@@ -256,14 +256,14 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
           {activeTab === 'upload' && (
             <div className="space-y-4">
               {!uploadedFile ? (
-                <label className="border-2 border-dashed border-slate-300 hover:border-docusign-500 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer bg-slate-50 hover:bg-docusign-50/30 transition group">
-                  <div className="w-14 h-14 bg-docusign-100 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition">
-                    <Upload className="w-7 h-7 text-docusign-600" />
+                <label className="border-2 border-dashed border-[rgba(255,255,197,0.3)] hover:border-[#FFFFC5] rounded-3xl p-8 flex flex-col items-center justify-center cursor-pointer bg-[rgba(255,255,197,0.03)] hover:bg-[rgba(255,255,197,0.07)] transition group">
+                  <div className="w-14 h-14 bg-[rgba(255,255,197,0.1)] rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition border border-[rgba(255,255,197,0.25)]">
+                    <Upload className="w-7 h-7 text-[#FFFFC5]" />
                   </div>
-                  <span className="text-base font-semibold text-slate-800">
+                  <span className="text-base font-bold text-[#FFFFC5]">
                     Click to browse or drop signature photo
                   </span>
-                  <span className="text-xs text-slate-500 mt-1">
+                  <span className="text-xs text-[rgba(255,255,197,0.65)] mt-1">
                     Accepts PNG, JPG, JPEG, WEBP (phone photos & scans supported)
                   </span>
                   <input
@@ -280,10 +280,10 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
               ) : (
                 <div className="space-y-4">
                   {/* Clean Signature Preview Canvas */}
-                  <div className="border border-slate-200 rounded-xl p-4 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] relative min-h-[160px] flex items-center justify-center">
+                  <div className="border border-[rgba(255,255,197,0.25)] rounded-2xl p-4 bg-white relative min-h-[160px] flex items-center justify-center shadow-inner">
                     {isProcessing ? (
-                      <div className="flex items-center gap-2 text-slate-500 text-sm">
-                        <RefreshCw className="w-4 h-4 animate-spin text-docusign-600" />
+                      <div className="flex items-center gap-2 text-[#341539] text-sm font-semibold">
+                        <RefreshCw className="w-4 h-4 animate-spin text-[#341539]" />
                         Enhancing ink and removing paper background...
                       </div>
                     ) : processedSignatureUrl ? (
@@ -299,7 +299,7 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                         setUploadedFile(null);
                         setProcessedSignatureUrl(null);
                       }}
-                      className="absolute top-2 right-2 text-xs bg-white/90 hover:bg-red-50 text-slate-600 hover:text-red-600 px-2.5 py-1 rounded-md border border-slate-200 transition flex items-center gap-1 shadow-sm"
+                      className="absolute top-2 right-2 text-xs bg-[#341539] text-[#FFFFC5] hover:bg-[#200b24] px-3 py-1 rounded-full border border-[rgba(255,255,197,0.3)] transition flex items-center gap-1 shadow-md"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                       Change Image
@@ -307,11 +307,11 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                   </div>
 
                   {/* Smart Background Removal & Ink Settings */}
-                  <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                  <div className="bg-[rgba(255,255,197,0.04)] p-4 rounded-2xl border border-[rgba(255,255,197,0.2)] space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                        <Sparkles className="w-4 h-4 text-amber-500" />
-                        Smart Ink Isolation (DocuSign Filter)
+                      <span className="text-xs font-bold text-[#FFFFC5] flex items-center gap-1.5">
+                        <Sparkles className="w-4 h-4 text-[#FFFFC5]" />
+                        Smart Ink Isolation Filter
                       </span>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
@@ -325,8 +325,8 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                           }
                           className="sr-only peer"
                         />
-                        <div className="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-docusign-600"></div>
-                        <span className="ml-2 text-xs font-medium text-slate-600">
+                        <div className="w-9 h-5 bg-[rgba(255,255,197,0.2)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-[#341539] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[#FFFFC5] after:border-[#341539] after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#FFFFC5]"></div>
+                        <span className="ml-2 text-xs font-medium text-[rgba(255,255,197,0.8)]">
                           Transparent Paper
                         </span>
                       </label>
@@ -337,16 +337,16 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                       <button
                         type="button"
                         onClick={() =>
-                          setProcessingOptions({ ...processingOptions, inkColor: 'blue' })
+                          setProcessingOptions({ ...processingOptions, inkColor: 'plum' })
                         }
-                        className={`px-3 py-2 text-xs font-semibold rounded-lg border flex items-center justify-center gap-1.5 transition ${
-                          processingOptions.inkColor === 'blue'
-                            ? 'bg-blue-50 border-blue-600 text-blue-900 shadow-sm'
-                            : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                        className={`px-3 py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition ${
+                          processingOptions.inkColor === 'plum'
+                            ? 'bg-[#FFFFC5] text-[#341539] border-[#FFFFC5] shadow-sm'
+                            : 'bg-transparent border-[rgba(255,255,197,0.25)] text-[#FFFFC5] hover:bg-[rgba(255,255,197,0.08)]'
                         }`}
                       >
-                        <span className="w-3 h-3 rounded-full bg-[#0f3d82] inline-block"></span>
-                        DocuSign Navy
+                        <span className="w-3 h-3 rounded-full bg-[#341539] inline-block border border-[#FFFFC5]"></span>
+                        Plum Ink
                       </button>
 
                       <button
@@ -354,10 +354,10 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                         onClick={() =>
                           setProcessingOptions({ ...processingOptions, inkColor: 'black' })
                         }
-                        className={`px-3 py-2 text-xs font-semibold rounded-lg border flex items-center justify-center gap-1.5 transition ${
+                        className={`px-3 py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition ${
                           processingOptions.inkColor === 'black'
-                            ? 'bg-slate-100 border-slate-900 text-slate-900 shadow-sm'
-                            : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                            ? 'bg-[#FFFFC5] text-[#341539] border-[#FFFFC5] shadow-sm'
+                            : 'bg-transparent border-[rgba(255,255,197,0.25)] text-[#FFFFC5] hover:bg-[rgba(255,255,197,0.08)]'
                         }`}
                       >
                         <span className="w-3 h-3 rounded-full bg-[#111827] inline-block"></span>
@@ -369,10 +369,10 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                         onClick={() =>
                           setProcessingOptions({ ...processingOptions, inkColor: 'original' })
                         }
-                        className={`px-3 py-2 text-xs font-semibold rounded-lg border flex items-center justify-center gap-1.5 transition ${
+                        className={`px-3 py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition ${
                           processingOptions.inkColor === 'original'
-                            ? 'bg-slate-100 border-slate-700 text-slate-900 shadow-sm'
-                            : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                            ? 'bg-[#FFFFC5] text-[#341539] border-[#FFFFC5] shadow-sm'
+                            : 'bg-transparent border-[rgba(255,255,197,0.25)] text-[#FFFFC5] hover:bg-[rgba(255,255,197,0.08)]'
                         }`}
                       >
                         Original Photo
@@ -381,8 +381,8 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
 
                     {/* Sensitivity slider */}
                     <div className="flex items-center gap-3 pt-2">
-                      <Sliders className="w-4 h-4 text-slate-400" />
-                      <span className="text-xs text-slate-500 whitespace-nowrap">Paper Cutoff:</span>
+                      <Sliders className="w-4 h-4 text-[rgba(255,255,197,0.7)]" />
+                      <span className="text-xs text-[rgba(255,255,197,0.7)] whitespace-nowrap">Paper Cutoff:</span>
                       <input
                         type="range"
                         min="150"
@@ -394,9 +394,9 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                             threshold: parseInt(e.target.value, 10),
                           })
                         }
-                        className="w-full accent-docusign-600 h-1.5 bg-slate-200 rounded-lg cursor-pointer"
+                        className="w-full accent-[#FFFFC5] h-1.5 bg-[rgba(255,255,197,0.2)] rounded-lg cursor-pointer"
                       />
-                      <span className="text-xs text-slate-500 font-mono w-8 text-right">
+                      <span className="text-xs text-[#FFFFC5] font-mono w-8 text-right">
                         {processingOptions.threshold}
                       </span>
                     </div>
@@ -409,7 +409,7 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
           {/* TAB 2: DRAW SIGNATURE */}
           {activeTab === 'draw' && (
             <div className="space-y-4">
-              <div className="border border-slate-200 rounded-xl overflow-hidden bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] relative">
+              <div className="border border-[rgba(255,255,197,0.25)] rounded-2xl overflow-hidden bg-white relative">
                 <canvas
                   ref={canvasRef}
                   width={560}
@@ -431,32 +431,32 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
               </div>
 
               {/* Drawing Toolbar */}
-              <div className="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+              <div className="flex items-center justify-between bg-[rgba(255,255,197,0.04)] p-3 rounded-2xl border border-[rgba(255,255,197,0.18)]">
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-semibold text-slate-600">Color:</span>
+                  <span className="text-xs font-bold text-[#FFFFC5]">Color:</span>
                   <button
                     type="button"
-                    onClick={() => setDrawColor('#0f3d82')}
-                    className={`w-6 h-6 rounded-full bg-[#0f3d82] ring-offset-2 transition ${
-                      drawColor === '#0f3d82' ? 'ring-2 ring-docusign-500 scale-110' : 'opacity-80'
+                    onClick={() => setDrawColor('#341539')}
+                    className={`w-6 h-6 rounded-full bg-[#341539] border border-[#FFFFC5] ring-offset-2 transition ${
+                      drawColor === '#341539' ? 'ring-2 ring-[#FFFFC5] scale-110' : 'opacity-80'
                     }`}
                   />
                   <button
                     type="button"
                     onClick={() => setDrawColor('#111827')}
                     className={`w-6 h-6 rounded-full bg-[#111827] ring-offset-2 transition ${
-                      drawColor === '#111827' ? 'ring-2 ring-docusign-500 scale-110' : 'opacity-80'
+                      drawColor === '#111827' ? 'ring-2 ring-[#FFFFC5] scale-110' : 'opacity-80'
                     }`}
                   />
 
-                  <div className="h-4 w-px bg-slate-300 mx-2" />
+                  <div className="h-4 w-px bg-[rgba(255,255,197,0.25)] mx-2" />
 
-                  <span className="text-xs font-semibold text-slate-600">Stroke:</span>
+                  <span className="text-xs font-bold text-[#FFFFC5]">Stroke:</span>
                   <button
                     type="button"
                     onClick={() => setStrokeWidth(1.8)}
-                    className={`px-2 py-0.5 text-xs rounded border ${
-                      strokeWidth === 1.8 ? 'bg-docusign-100 border-docusign-400 font-bold' : 'bg-white'
+                    className={`px-2.5 py-0.5 text-xs rounded-full border ${
+                      strokeWidth === 1.8 ? 'bg-[#FFFFC5] text-[#341539] border-[#FFFFC5] font-bold' : 'bg-transparent text-[#FFFFC5] border-[rgba(255,255,197,0.25)]'
                     }`}
                   >
                     Fine
@@ -464,8 +464,8 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setStrokeWidth(2.8)}
-                    className={`px-2 py-0.5 text-xs rounded border ${
-                      strokeWidth === 2.8 ? 'bg-docusign-100 border-docusign-400 font-bold' : 'bg-white'
+                    className={`px-2.5 py-0.5 text-xs rounded-full border ${
+                      strokeWidth === 2.8 ? 'bg-[#FFFFC5] text-[#341539] border-[#FFFFC5] font-bold' : 'bg-transparent text-[#FFFFC5] border-[rgba(255,255,197,0.25)]'
                     }`}
                   >
                     Medium
@@ -473,8 +473,8 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setStrokeWidth(4.2)}
-                    className={`px-2 py-0.5 text-xs rounded border ${
-                      strokeWidth === 4.2 ? 'bg-docusign-100 border-docusign-400 font-bold' : 'bg-white'
+                    className={`px-2.5 py-0.5 text-xs rounded-full border ${
+                      strokeWidth === 4.2 ? 'bg-[#FFFFC5] text-[#341539] border-[#FFFFC5] font-bold' : 'bg-transparent text-[#FFFFC5] border-[rgba(255,255,197,0.25)]'
                     }`}
                   >
                     Bold
@@ -484,7 +484,7 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                 <button
                   type="button"
                   onClick={clearCanvas}
-                  className="px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition flex items-center gap-1"
+                  className="px-3 py-1.5 text-xs font-bold text-[rgba(255,255,197,0.8)] hover:text-red-400 hover:bg-[rgba(255,255,197,0.08)] rounded-full transition flex items-center gap-1"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                   Clear
@@ -496,8 +496,8 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
           {/* TAB 3: TYPE SIGNATURE */}
           {activeTab === 'type' && (
             <div className="space-y-3">
-              <p className="text-xs text-slate-500">
-                Choose a cursive font style for your digital signature:
+              <p className="text-xs text-[rgba(255,255,197,0.7)]">
+                Choose a calligraphy style for your signature:
               </p>
 
               <div className="grid grid-cols-2 gap-3">
@@ -511,20 +511,20 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                     key={style.id}
                     type="button"
                     onClick={() => setSelectedFontStyle(style.id)}
-                    className={`p-4 rounded-xl border text-left transition relative flex flex-col justify-between h-28 ${
+                    className={`p-4 rounded-2xl border text-left transition relative flex flex-col justify-between h-28 ${
                       selectedFontStyle === style.id
-                        ? 'border-docusign-500 bg-docusign-50/40 ring-2 ring-docusign-200'
-                        : 'border-slate-200 hover:border-slate-300 bg-white'
+                        ? 'border-[#FFFFC5] bg-[rgba(255,255,197,0.12)] ring-2 ring-[#FFFFC5]'
+                        : 'border-[rgba(255,255,197,0.2)] hover:border-[rgba(255,255,197,0.4)] bg-[rgba(255,255,197,0.03)]'
                     }`}
                   >
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                    <span className="text-[10px] uppercase font-bold text-[rgba(255,255,197,0.6)] tracking-wider">
                       {style.name}
                     </span>
-                    <span className={`text-2xl text-[#0f3d82] truncate ${style.class}`}>
+                    <span className={`text-2xl text-[#FFFFC5] truncate ${style.class}`}>
                       {signerName || 'Signature'}
                     </span>
                     {selectedFontStyle === style.id && (
-                      <span className="absolute top-2 right-2 w-5 h-5 bg-docusign-600 text-white rounded-full flex items-center justify-center">
+                      <span className="absolute top-2 right-2 w-5 h-5 bg-[#FFFFC5] text-[#341539] rounded-full flex items-center justify-center">
                         <Check className="w-3 h-3 stroke-[3]" />
                       </span>
                     )}
@@ -536,17 +536,17 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
-          <div className="text-xs text-slate-500 flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping"></span>
-            Cloudflare ESIGN / UETA Compliant
+        <div className="px-6 py-4 border-t border-[rgba(255,255,197,0.15)] flex items-center justify-between bg-[rgba(255,255,197,0.02)]">
+          <div className="text-xs text-[rgba(255,255,197,0.7)] flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#FFFFC5] inline-block animate-ping"></span>
+            ESIGN & UETA Cryptographic Standard
           </div>
 
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-200/60 rounded-xl transition"
+              className="px-5 py-2 text-xs font-bold text-[#FFFFC5] hover:bg-[rgba(255,255,197,0.1)] rounded-full transition"
             >
               Cancel
             </button>
@@ -558,9 +558,9 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                 (activeTab === 'draw' && !hasDrawnContent) ||
                 (activeTab === 'type' && !signerName.trim())
               }
-              className="px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-docusign-600 to-docusign-700 hover:from-docusign-700 hover:to-docusign-800 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl shadow-md hover:shadow-lg transition flex items-center gap-2"
+              className="px-6 py-2.5 text-xs font-extrabold text-[#341539] bg-[#FFFFC5] hover:bg-[#fffff0] disabled:opacity-40 disabled:cursor-not-allowed rounded-full shadow-[0_4px_16px_rgba(255,255,197,0.25)] hover:shadow-[0_8px_24px_rgba(255,255,197,0.4)] hover:-translate-y-0.5 transition flex items-center gap-2"
             >
-              <Check className="w-4 h-4 stroke-[2.5]" />
+              <Check className="w-4 h-4 stroke-[3]" />
               Adopt & Use Signature
             </button>
           </div>

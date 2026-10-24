@@ -216,7 +216,7 @@ export function App() {
         userAgent: navigator.userAgent,
         sha256Checksum: stampResult.signedHash,
         timestamp: stampResult.completedAt.replace('T', ' ').slice(0, 19),
-        details: `DocuSign ESIGN/UETA Certificate sealed. Signed SHA-256: ${stampResult.signedHash.slice(0, 16)}...`,
+        details: `Cryptographic ESIGN/UETA Certificate sealed. Signed SHA-256: ${stampResult.signedHash.slice(0, 16)}...`,
       };
       const updatedAudit = [...auditLogs, completionLog];
       setAuditLogs(updatedAudit);
@@ -270,7 +270,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#341539] text-[#FFFFC5] flex flex-col font-sans">
       <Header
         onNewDocument={() => setCurrentDoc(null)}
         onOpenHistory={() => setIsHistoryModalOpen(true)}

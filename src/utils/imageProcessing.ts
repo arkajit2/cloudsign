@@ -1,13 +1,13 @@
 /**
  * Image processing utilities for uploaded signatures.
  * Automatically removes paper background, enhances ink contrast,
- * and auto-crops extraneous borders for high-fidelity DocuSign stamping.
+ * and auto-crops extraneous borders for high-fidelity stamping.
  */
 
 export interface SignatureProcessingOptions {
   removeBackground: boolean;
-  threshold: number; // 0 to 255 (paper threshold, default 210)
-  inkColor: 'original' | 'blue' | 'black';
+  threshold: number; // 0 to 255 (paper threshold, default 215)
+  inkColor: 'original' | 'plum' | 'black';
   autoCrop: boolean;
 }
 
@@ -16,7 +16,7 @@ export async function processUploadedSignature(
   options: SignatureProcessingOptions = {
     removeBackground: true,
     threshold: 215,
-    inkColor: 'blue',
+    inkColor: 'plum',
     autoCrop: true,
   }
 ): Promise<string> {
@@ -69,11 +69,11 @@ export async function processUploadedSignature(
 
         const threshold = options.threshold;
 
-        // DocuSign Navy: RGB(15, 60, 140)
-        // Midnight Black: RGB(20, 24, 33)
-        const targetR = options.inkColor === 'blue' ? 16 : options.inkColor === 'black' ? 20 : 0;
-        const targetG = options.inkColor === 'blue' ? 55 : options.inkColor === 'black' ? 24 : 0;
-        const targetB = options.inkColor === 'blue' ? 140 : options.inkColor === 'black' ? 33 : 0;
+        // Fraoula Deep Plum Ink: RGB(52, 21, 57)
+        // Midnight Black Ink: RGB(17, 24, 39)
+        const targetR = options.inkColor === 'plum' ? 52 : options.inkColor === 'black' ? 17 : 0;
+        const targetG = options.inkColor === 'plum' ? 21 : options.inkColor === 'black' ? 24 : 0;
+        const targetB = options.inkColor === 'plum' ? 57 : options.inkColor === 'black' ? 39 : 0;
 
         for (let y = 0; y < height; y++) {
           for (let x = 0; x < width; x++) {

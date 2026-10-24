@@ -4,44 +4,46 @@
 
 @layer base {
   body {
-    @apply bg-slate-100 text-slate-800 antialiased font-sans;
+    background-color: #341539;
+    color: #FFFFC5;
+    @apply antialiased font-sans selection:bg-[#FFFFC5] selection:text-[#341539];
   }
 }
 
-/* Custom scrollbars for document page thumbnails and canvas */
+/* Custom Fraoula Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #260d2a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
+  background: rgba(255, 255, 197, 0.25);
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: rgba(255, 255, 197, 0.45);
 }
 
 /* Document Paper Shadow Effect */
 .pdf-page-shadow {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 197, 0.15);
 }
 
-/* Pulse animation for signature field guidance */
-@keyframes docusign-glow {
+/* Pulse animation for signature field guidance in Fraoula style */
+@keyframes fraoula-glow {
   0%, 100% {
-    box-shadow: 0 0 0 2px rgba(14, 140, 230, 0.5), 0 0 15px rgba(14, 140, 230, 0.2);
+    box-shadow: 0 0 0 2px rgba(255, 255, 197, 0.4), 0 0 16px rgba(255, 255, 197, 0.2);
   }
   50% {
-    box-shadow: 0 0 0 4px rgba(14, 140, 230, 0.8), 0 0 20px rgba(14, 140, 230, 0.4);
+    box-shadow: 0 0 0 4px rgba(255, 255, 197, 0.75), 0 0 24px rgba(255, 255, 197, 0.35);
   }
 }
 
 .signature-field-active {
-  animation: docusign-glow 2s infinite ease-in-out;
+  animation: fraoula-glow 2s infinite ease-in-out;
 }

@@ -11,7 +11,7 @@ export async function computeSha256(data: ArrayBuffer | Uint8Array): Promise<str
 }
 
 export function generateEnvelopeId(): string {
-  // Generate DocuSign-style 32-character hex envelope UUID (e.g. 7f8a12bc-9d4e-4f3a-8b1c-99f2e3a4b5c6)
+  // Generate 32-character hex envelope UUID (e.g. 7f8a12bc-9d4e-4f3a-8b1c-99f2e3a4b5c6)
   const array = new Uint8Array(16);
   crypto.getRandomValues(array);
   

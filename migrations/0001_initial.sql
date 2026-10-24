@@ -1,5 +1,5 @@
 -- CloudSign D1 Database Migration: Initial Schema
--- Supports Documents, Signature Placements, and DocuSign-compliant Audit Logs
+-- Supports Documents, Signature Placements, and Compliant Audit Logs
 
 CREATE TABLE IF NOT EXISTS documents (
     id TEXT PRIMARY KEY,
