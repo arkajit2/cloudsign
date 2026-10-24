@@ -26,9 +26,24 @@ export async function processUploadedSignature(
 
     img.onload = () => {
       try {
+        let width = img.naturalWidth || img.width || 600;
+        let height = img.naturalHeight || img.height || 200;
+
+        // Downscale oversized camera photos to max 1200px (clean 300 DPI for signatures)
+        const MAX_DIM = 1200;
+        if (width > MAX_DIM || height > MAX_DIM) {
+          if (width > height) {
+            height = Math.round((height * MAX_DIM) / width);
+            width = MAX_DIM;
+          } else {
+            width = Math.round((width * MAX_DIM) / height);
+            height = MAX_DIM;
+          }
+        }
+
         const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth || img.width;
-        canvas.height = img.naturalHeight || img.height;
+        canvas.width = width;
+        canvas.height = height;
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
         if (!ctx) {
@@ -36,7 +51,7 @@ export async function processUploadedSignature(
           return;
         }
 
-        ctx.drawImage(img, 0, 0);
+        ctx.drawImage(img, 0, 0, width, height);
 
         if (!options.removeBackground) {
           resolve(canvas.toDataURL('image/png'));
@@ -45,8 +60,6 @@ export async function processUploadedSignature(
 
         const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imgData.data;
-        const width = canvas.width;
-        const height = canvas.height;
 
         let minX = width;
         let minY = height;
@@ -56,9 +69,8 @@ export async function processUploadedSignature(
 
         const threshold = options.threshold;
 
-        // Ink color palettes
-        // Professional DocuSign Blue Ink: RGB(15, 60, 140)
-        // Classic Black Ink: RGB(20, 24, 33)
+        // DocuSign Navy: RGB(15, 60, 140)
+        // Midnight Black: RGB(20, 24, 33)
         const targetR = options.inkColor === 'blue' ? 16 : options.inkColor === 'black' ? 20 : 0;
         const targetG = options.inkColor === 'blue' ? 55 : options.inkColor === 'black' ? 24 : 0;
         const targetB = options.inkColor === 'blue' ? 140 : options.inkColor === 'black' ? 33 : 0;
@@ -87,7 +99,6 @@ export async function processUploadedSignature(
               if (y < minY) minY = y;
               if (y > maxY) maxY = y;
 
-              // Calculate ink density: darker pixels = higher density
               const inkDensity = Math.min(1, Math.max(0, (threshold - luminance) / (threshold * 0.75)));
               const newAlpha = Math.round(inkDensity * 255);
 
@@ -105,7 +116,7 @@ export async function processUploadedSignature(
 
         ctx.putImageData(imgData, 0, 0);
 
-        // Auto-crop to content if ink was found and autoCrop is enabled
+        // Auto-crop if ink was found and crop dimensions are valid
         if (options.autoCrop && hasInk && maxX > minX && maxY > minY) {
           const padding = 12;
           const cropX = Math.max(0, minX - padding);
@@ -113,19 +124,21 @@ export async function processUploadedSignature(
           const cropWidth = Math.min(width - cropX, maxX - minX + padding * 2);
           const cropHeight = Math.min(height - cropY, maxY - minY + padding * 2);
 
-          const croppedCanvas = document.createElement('canvas');
-          croppedCanvas.width = cropWidth;
-          croppedCanvas.height = cropHeight;
-          const croppedCtx = croppedCanvas.getContext('2d');
+          if (cropWidth > 10 && cropHeight > 10) {
+            const croppedCanvas = document.createElement('canvas');
+            croppedCanvas.width = cropWidth;
+            croppedCanvas.height = cropHeight;
+            const croppedCtx = croppedCanvas.getContext('2d');
 
-          if (croppedCtx) {
-            croppedCtx.drawImage(
-              canvas,
-              cropX, cropY, cropWidth, cropHeight,
-              0, 0, cropWidth, cropHeight
-            );
-            resolve(croppedCanvas.toDataURL('image/png'));
-            return;
+            if (croppedCtx) {
+              croppedCtx.drawImage(
+                canvas,
+                cropX, cropY, cropWidth, cropHeight,
+                0, 0, cropWidth, cropHeight
+              );
+              resolve(croppedCanvas.toDataURL('image/png'));
+              return;
+            }
           }
         }
 

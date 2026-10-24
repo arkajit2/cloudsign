@@ -80,6 +80,8 @@ export function App() {
     const newEnvelopeId = generateEnvelopeId();
     setEnvelopeId(newEnvelopeId);
 
+    const safeBytes = new Uint8Array(data.pdfBytes.slice());
+
     const newDoc: DocumentInfo = {
       id: newEnvelopeId,
       title: data.title,
@@ -89,7 +91,7 @@ export function App() {
       sha256Hash: data.sha256Hash,
       createdAt: new Date().toISOString().replace('T', ' ').slice(0, 19),
       fields: [],
-      originalPdfBytes: data.pdfBytes,
+      originalPdfBytes: safeBytes,
     };
 
     setCurrentDoc(newDoc);
@@ -180,13 +182,16 @@ export function App() {
 
   // 4. Burn signatures and finish document
   const handleCompleteSigning = async () => {
-    if (!currentDoc || !currentDoc.originalPdfBytes) return;
+    if (!currentDoc || !currentDoc.originalPdfBytes || currentDoc.originalPdfBytes.byteLength === 0) {
+      alert('Document data is not loaded. Please upload or choose a document.');
+      return;
+    }
 
     try {
       setIsSigning(true);
 
       const stampResult = await stampDocument({
-        originalPdfBytes: currentDoc.originalPdfBytes,
+        originalPdfBytes: new Uint8Array(currentDoc.originalPdfBytes.slice()),
         fields,
         envelopeId,
         documentTitle: currentDoc.title,
@@ -240,9 +245,10 @@ export function App() {
 
       setIsSigning(false);
       setIsCompletionModalOpen(true);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to sign document:', err);
-      alert('Error stamping signatures onto document. Please try again.');
+      const msg = err?.message || String(err) || 'Unknown error';
+      alert(`Error stamping signatures onto document: ${msg}`);
       setIsSigning(false);
     }
   };

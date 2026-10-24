@@ -24,10 +24,21 @@ export class PDFDocumentViewer {
   public pageCount: number = 0;
 
   async load(source: Uint8Array | ArrayBuffer | string): Promise<number> {
+    // IMPORTANT: PDF.js web worker transfers ArrayBuffers by default, which detaches them.
+    // We clone the source array with .slice() so the caller's original buffer is never detached.
+    let dataCopy: Uint8Array | string;
+    if (typeof source === 'string') {
+      dataCopy = source;
+    } else if (source instanceof Uint8Array) {
+      dataCopy = new Uint8Array(source.slice());
+    } else {
+      dataCopy = new Uint8Array(new Uint8Array(source).slice());
+    }
+
     const loadingTask = pdfjsLib.getDocument(
-      typeof source === 'string'
-        ? source
-        : { data: source instanceof Uint8Array ? source : new Uint8Array(source) }
+      typeof dataCopy === 'string'
+        ? dataCopy
+        : { data: dataCopy }
     );
     this.pdfDoc = await loadingTask.promise;
     this.pageCount = this.pdfDoc.numPages;
