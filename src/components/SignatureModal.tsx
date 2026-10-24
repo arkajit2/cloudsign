@@ -40,6 +40,13 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
   // Type Tab State
   const [selectedFontStyle, setSelectedFontStyle] = useState<string>('font-signature1');
 
+  // Synchronize signerName when defaultName or modal opens
+  useEffect(() => {
+    if (defaultName) {
+      setSignerName(defaultName);
+    }
+  }, [defaultName, isOpen]);
+
   // Trigger processing when file or options change
   useEffect(() => {
     if (uploadedFile) {

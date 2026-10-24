@@ -12,6 +12,7 @@ import {
   FileText,
   Maximize2,
   Sparkles,
+  Edit3,
 } from 'lucide-react';
 import type { SignatureField, FieldType } from '../types';
 import { PDFDocumentViewer } from '../utils/pdfRenderer';
@@ -25,6 +26,9 @@ interface PDFSigningCanvasProps {
   onCompleteSigning: () => void;
   isProcessing: boolean;
   defaultSignerName: string;
+  signerEmail?: string;
+  onSignerNameChange?: (name: string) => void;
+  onSignerEmailChange?: (email: string) => void;
 }
 
 export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
@@ -36,6 +40,9 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
   onCompleteSigning,
   isProcessing,
   defaultSignerName,
+  signerEmail,
+  onSignerNameChange,
+  onSignerEmailChange,
 }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageCount, setPageCount] = useState<number>(1);
@@ -94,17 +101,17 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
   // Add a field to the current page
   const addField = (type: FieldType) => {
     const newId = `field_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
-    let width = 26; // % of page width
+    let width = 28; // % of page width
     let height = 8; // % of page height
     let value = '';
 
     if (type === 'date') {
-      width = 20;
+      width = 22;
       height = 5;
       value = new Date().toISOString().split('T')[0];
     } else if (type === 'name') {
-      width = 22;
-      height = 5;
+      width = 24;
+      height = 5.5;
       value = defaultSignerName;
     }
 
@@ -113,12 +120,13 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
       id: newId,
       type,
       pageNumber: currentPage,
-      x: 37, // Centered horizontally
-      y: 40 + (fields.filter((f) => f.pageNumber === currentPage).length * 8) % 40,
+      x: 36, // Centered horizontally
+      y: 35 + (fields.filter((f) => f.pageNumber === currentPage).length * 8) % 45,
       width,
       height,
       value,
       signerName: defaultSignerName,
+      signerEmail: signerEmail,
     };
 
     const updated = [...fields, newField];
@@ -243,8 +251,23 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
           </div>
         </div>
 
+        {/* Center: Signer Name Quick-Edit Chip */}
+        <div className="hidden md:flex items-center gap-2 bg-navy-950/80 border border-navy-800 px-3 py-1 rounded-xl">
+          <User className="w-3.5 h-3.5 text-docusign-400 shrink-0" />
+          <span className="text-[11px] text-slate-400">Signer:</span>
+          <input
+            type="text"
+            value={defaultSignerName}
+            onChange={(e) => onSignerNameChange?.(e.target.value)}
+            className="bg-transparent text-xs font-bold text-white focus:outline-none focus:ring-1 focus:ring-docusign-400 rounded px-1 w-28 sm:w-36 hover:bg-navy-900 transition"
+            title="Click to edit signer name"
+            placeholder="Signer Name"
+          />
+          <Edit3 className="w-3 h-3 text-slate-500 pointer-events-none" />
+        </div>
+
         {/* Page Nav & Zoom */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <div className="flex items-center bg-navy-950/80 rounded-lg p-1 border border-navy-800">
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
@@ -301,87 +324,131 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
 
       {/* Main Workspace Body */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Left Toolbar: Signature Elements */}
-        <div className="w-64 bg-navy-900 border-r border-navy-800 p-4 flex flex-col justify-between shrink-0 z-10">
-          <div>
-            <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">
-              Standard Fields
+        {/* Left Toolbar */}
+        <div className="w-64 bg-navy-900 border-r border-navy-800 p-4 flex flex-col justify-between shrink-0 z-10 overflow-y-auto">
+          <div className="space-y-4">
+            {/* Signer Profile Card */}
+            <div className="p-3 bg-navy-950/90 border border-navy-800 rounded-xl space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-docusign-400" />
+                  Signer Details
+                </span>
+                <span className="text-[10px] text-docusign-400 font-semibold flex items-center gap-1">
+                  <Edit3 className="w-3 h-3" /> Edit
+                </span>
+              </div>
+
+              <div>
+                <label className="text-[10px] text-slate-400 block mb-1 font-medium">
+                  Signer Full Name:
+                </label>
+                <input
+                  type="text"
+                  value={defaultSignerName}
+                  onChange={(e) => onSignerNameChange?.(e.target.value)}
+                  placeholder="e.g. John Doe"
+                  className="w-full px-2.5 py-1.5 text-xs bg-navy-900 border border-navy-700 focus:border-docusign-500 rounded-lg text-white font-medium focus:outline-none focus:ring-1 focus:ring-docusign-500 transition shadow-inner"
+                />
+              </div>
+
+              {signerEmail !== undefined && (
+                <div>
+                  <label className="text-[10px] text-slate-400 block mb-1 font-medium">
+                    Signer Email:
+                  </label>
+                  <input
+                    type="email"
+                    value={signerEmail}
+                    onChange={(e) => onSignerEmailChange?.(e.target.value)}
+                    placeholder="signer@example.com"
+                    className="w-full px-2.5 py-1.5 text-xs bg-navy-900 border border-navy-700 focus:border-docusign-500 rounded-lg text-white font-medium focus:outline-none focus:ring-1 focus:ring-docusign-500 transition shadow-inner"
+                  />
+                </div>
+              )}
             </div>
-            <p className="text-xs text-slate-400 mb-4">
-              Click to place fields on Page {currentPage}. Drag anywhere to position.
-            </p>
 
-            <div className="space-y-2.5">
-              <button
-                type="button"
-                onClick={() => addField('signature')}
-                className="w-full p-3 bg-docusign-600/15 hover:bg-docusign-600/25 border border-docusign-500/40 hover:border-docusign-400 rounded-xl text-left transition flex items-center justify-between group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-docusign-500 text-white flex items-center justify-center shadow-md">
-                    <PenTool className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-white group-hover:text-docusign-300 transition">
-                      Signature Field
+            <div>
+              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                Standard Fields
+              </div>
+              <p className="text-[11px] text-slate-400 mb-3">
+                Click to place fields on Page {currentPage}. Drag anywhere to position.
+              </p>
+
+              <div className="space-y-2">
+                <button
+                  type="button"
+                  onClick={() => addField('signature')}
+                  className="w-full p-2.5 bg-docusign-600/15 hover:bg-docusign-600/25 border border-docusign-500/40 hover:border-docusign-400 rounded-xl text-left transition flex items-center justify-between group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-docusign-500 text-white flex items-center justify-center shadow-md">
+                      <PenTool className="w-3.5 h-3.5" />
                     </div>
-                    <div className="text-[10px] text-slate-400">Adopt uploaded or drawn</div>
+                    <div>
+                      <div className="text-xs font-bold text-white group-hover:text-docusign-300 transition">
+                        Signature Field
+                      </div>
+                      <div className="text-[10px] text-slate-400">Adopt uploaded or drawn</div>
+                    </div>
                   </div>
-                </div>
-                <span className="text-xs text-docusign-400 font-bold opacity-0 group-hover:opacity-100 transition">
-                  + Add
-                </span>
-              </button>
+                  <span className="text-xs text-docusign-400 font-bold opacity-0 group-hover:opacity-100 transition">
+                    + Add
+                  </span>
+                </button>
 
-              <button
-                type="button"
-                onClick={() => addField('date')}
-                className="w-full p-3 bg-navy-800/80 hover:bg-navy-800 border border-navy-700 hover:border-slate-600 rounded-xl text-left transition flex items-center justify-between group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-slate-700 text-slate-200 flex items-center justify-center">
-                    <Calendar className="w-4 h-4" />
+                <button
+                  type="button"
+                  onClick={() => addField('name')}
+                  className="w-full p-2.5 bg-navy-800/80 hover:bg-navy-800 border border-navy-700 hover:border-slate-600 rounded-xl text-left transition flex items-center justify-between group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-slate-700 text-slate-200 flex items-center justify-center">
+                      <User className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white">Signer Name</div>
+                      <div className="text-[10px] text-slate-400 truncate max-w-[110px]">
+                        {defaultSignerName}
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-xs font-bold text-white">Date Signed</div>
-                    <div className="text-[10px] text-slate-400">Auto-stamped today</div>
-                  </div>
-                </div>
-                <span className="text-xs text-slate-400 font-bold opacity-0 group-hover:opacity-100 transition">
-                  + Add
-                </span>
-              </button>
+                  <span className="text-xs text-slate-400 font-bold opacity-0 group-hover:opacity-100 transition">
+                    + Add
+                  </span>
+                </button>
 
-              <button
-                type="button"
-                onClick={() => addField('name')}
-                className="w-full p-3 bg-navy-800/80 hover:bg-navy-800 border border-navy-700 hover:border-slate-600 rounded-xl text-left transition flex items-center justify-between group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-slate-700 text-slate-200 flex items-center justify-center">
-                    <User className="w-4 h-4" />
+                <button
+                  type="button"
+                  onClick={() => addField('date')}
+                  className="w-full p-2.5 bg-navy-800/80 hover:bg-navy-800 border border-navy-700 hover:border-slate-600 rounded-xl text-left transition flex items-center justify-between group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-slate-700 text-slate-200 flex items-center justify-center">
+                      <Calendar className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white">Date Signed</div>
+                      <div className="text-[10px] text-slate-400">Auto-stamped today</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-xs font-bold text-white">Signer Name</div>
-                    <div className="text-[10px] text-slate-400">{defaultSignerName}</div>
-                  </div>
-                </div>
-                <span className="text-xs text-slate-400 font-bold opacity-0 group-hover:opacity-100 transition">
-                  + Add
-                </span>
-              </button>
+                  <span className="text-xs text-slate-400 font-bold opacity-0 group-hover:opacity-100 transition">
+                    + Add
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
 
           {/* Quick Tip Card */}
-          <div className="p-3 bg-navy-950/70 border border-navy-800 rounded-xl text-slate-400 text-xs space-y-1">
+          <div className="p-3 bg-navy-950/70 border border-navy-800 rounded-xl text-slate-400 text-xs space-y-1 mt-4">
             <div className="flex items-center gap-1.5 font-bold text-amber-400 text-[11px]">
               <Sparkles className="w-3.5 h-3.5" />
-              DocuSign Placement
+              Direct Editing
             </div>
             <p className="text-[11px] leading-relaxed">
-              Drag fields to adjust position. Click on any signature field to upload or adopt a new
-              transparent signature.
+              Click directly on any Signer Name or Date field on the document to edit its text.
             </p>
           </div>
         </div>
@@ -424,11 +491,11 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                         ? 'border-docusign-600 bg-docusign-500/10 signature-field-active'
                         : 'border-docusign-500/80 bg-docusign-500/5 hover:border-docusign-500'
                       : isSelected
-                      ? 'border-amber-500 bg-amber-500/10'
-                      : 'border-slate-400/80 bg-slate-200/20 hover:border-slate-500'
+                      ? 'border-amber-500 bg-amber-500/15'
+                      : 'border-slate-400/80 bg-slate-200/30 hover:border-slate-500'
                   }`}
                 >
-                  {/* Field Content */}
+                  {/* Field Content: Interactive inputs for direct typing */}
                   {field.type === 'signature' ? (
                     field.signatureDataUrl ? (
                       <img
@@ -442,21 +509,55 @@ export const PDFSigningCanvas: React.FC<PDFSigningCanvasProps> = ({
                         <span>Sign Here</span>
                       </div>
                     )
+                  ) : field.type === 'name' || field.type === 'text' ? (
+                    <input
+                      type="text"
+                      value={field.value !== undefined ? field.value : field.signerName || defaultSignerName}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        onFieldsChange(
+                          fields.map((f) =>
+                            f.id === field.id ? { ...f, value: val, signerName: val } : f
+                          )
+                        );
+                        // Also sync to global signer name if editing the name field
+                        if (field.type === 'name') {
+                          onSignerNameChange?.(val);
+                        }
+                      }}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedFieldId(field.id);
+                      }}
+                      placeholder="Type name here..."
+                      className="w-full h-full bg-white/95 text-slate-900 font-bold text-xs px-2 text-center rounded border border-transparent focus:border-docusign-500 focus:outline-none focus:ring-1 focus:ring-docusign-500 shadow-sm transition"
+                    />
                   ) : field.type === 'date' ? (
-                    <div className="text-slate-800 font-medium text-xs truncate px-2 pointer-events-none font-mono">
-                      {field.value || new Date().toISOString().split('T')[0]}
-                    </div>
-                  ) : (
-                    <div className="text-slate-800 font-medium text-xs truncate px-2 pointer-events-none">
-                      {field.value || field.signerName}
-                    </div>
-                  )}
+                    <input
+                      type="text"
+                      value={field.value !== undefined ? field.value : new Date().toISOString().split('T')[0]}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        onFieldsChange(
+                          fields.map((f) => (f.id === field.id ? { ...f, value: val } : f))
+                        );
+                      }}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedFieldId(field.id);
+                      }}
+                      placeholder="YYYY-MM-DD"
+                      className="w-full h-full bg-white/95 text-slate-900 font-mono text-xs px-2 text-center rounded border border-transparent focus:border-docusign-500 focus:outline-none focus:ring-1 focus:ring-docusign-500 shadow-sm transition"
+                    />
+                  ) : null}
 
                   {/* Field Actions Toolbar (when selected or hovered) */}
                   <div
                     className={`absolute -top-7 right-0 flex items-center gap-1 bg-navy-900 border border-navy-700 rounded px-1.5 py-0.5 shadow-md ${
                       isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                    } transition-opacity`}
+                    } transition-opacity z-10`}
                   >
                     {field.type === 'signature' && (
                       <button

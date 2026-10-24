@@ -10,9 +10,15 @@ interface DocumentUploaderProps {
     sha256Hash: string;
     fileSize: number;
   }) => void;
+  signerName?: string;
+  onSignerNameChange?: (name: string) => void;
 }
 
-export const DocumentUploader: React.FC<DocumentUploaderProps> = ({ onDocumentLoaded }) => {
+export const DocumentUploader: React.FC<DocumentUploaderProps> = ({
+  onDocumentLoaded,
+  signerName = 'Jane Doe',
+  onSignerNameChange,
+}) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
@@ -128,9 +134,23 @@ export const DocumentUploader: React.FC<DocumentUploaderProps> = ({ onDocumentLo
           <h2 className="text-2xl font-bold text-slate-800 mb-2">
             Upload a document to sign
           </h2>
-          <p className="text-sm text-slate-500 mb-6">
+          <p className="text-sm text-slate-500 mb-5">
             Drag and drop your PDF here, or click the button below to browse your files
           </p>
+
+          {/* Signer Name Input on Upload Screen */}
+          <div className="w-full max-w-xs mb-5 text-left bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+            <label className="text-[10px] font-bold text-slate-500 block mb-1 uppercase tracking-wider">
+              Signer Full Name
+            </label>
+            <input
+              type="text"
+              value={signerName}
+              onChange={(e) => onSignerNameChange?.(e.target.value)}
+              placeholder="e.g. John Doe"
+              className="w-full px-2.5 py-1 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-docusign-500 font-semibold text-slate-800"
+            />
+          </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full justify-center">
             <label

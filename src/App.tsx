@@ -20,7 +20,7 @@ export function App() {
 
   // Signer configuration
   const [signerName, setSignerName] = useState<string>('Jane Doe');
-  const [signerEmail] = useState<string>('jane.doe@example.com');
+  const [signerEmail, setSignerEmail] = useState<string>('jane.doe@example.com');
 
   // Modals state
   const [isSignatureModalOpen, setIsSignatureModalOpen] = useState(false);
@@ -280,7 +280,11 @@ export function App() {
 
       <main className="flex-1 flex flex-col">
         {!currentDoc || !currentDoc.originalPdfBytes ? (
-          <DocumentUploader onDocumentLoaded={handleDocumentLoaded} />
+          <DocumentUploader
+            onDocumentLoaded={handleDocumentLoaded}
+            signerName={signerName}
+            onSignerNameChange={setSignerName}
+          />
         ) : (
           <PDFSigningCanvas
             pdfBytes={currentDoc.originalPdfBytes}
@@ -291,6 +295,16 @@ export function App() {
             onCompleteSigning={handleCompleteSigning}
             isProcessing={isSigning}
             defaultSignerName={signerName}
+            signerEmail={signerEmail}
+            onSignerNameChange={(newName) => {
+              setSignerName(newName);
+              setFields((prev) =>
+                prev.map((f) =>
+                  f.type === 'name' ? { ...f, value: newName, signerName: newName } : f
+                )
+              );
+            }}
+            onSignerEmailChange={setSignerEmail}
           />
         )}
       </main>
