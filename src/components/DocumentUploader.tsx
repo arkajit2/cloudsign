@@ -91,8 +91,8 @@ export const DocumentUploader: React.FC<DocumentUploaderProps> = ({
       {/* Hero Header */}
       <div className="text-center mb-10">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[rgba(255,255,197,0.08)] text-[#FFFFC5] rounded-full text-xs font-semibold mb-4 border border-[rgba(255,255,197,0.25)]">
-          <Zap className="w-3.5 h-3.5 fill-[#FFFFC5] text-[#FFFFC5]" />
-          Powered by Cloudflare Edge & D1 SQLite
+          <ShieldCheck className="w-3.5 h-3.5 text-[#FFFFC5]" />
+          Legally Binding & Tamper-Proof
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl text-[#FFFFC5] drop-shadow-sm">
           Sign documents online in seconds.
@@ -201,9 +201,9 @@ export const DocumentUploader: React.FC<DocumentUploaderProps> = ({
               <Lock className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-xs font-bold text-[#FFFFC5]">Cloudflare Protected</h3>
+              <h3 className="text-xs font-bold text-[#FFFFC5]">End-to-End Cryptographic Security</h3>
               <p className="text-[11px] text-[rgba(255,255,197,0.65)] mt-0.5">
-                Global edge execution, encrypted storage with Cloudflare R2 & D1.
+                Immutable SHA-256 fingerprinting & tamper-evident digital seal.
               </p>
             </div>
           </div>

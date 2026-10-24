@@ -6,7 +6,6 @@ import { SignatureModal } from './components/SignatureModal';
 import { CompletionModal } from './components/CompletionModal';
 import { AuditTrailViewer } from './components/AuditTrailViewer';
 import { DocumentHistoryModal } from './components/DocumentHistoryModal';
-import { CloudflareGuideModal } from './components/CloudflareGuideModal';
 import type { DocumentInfo, SignatureField, AuditLogItem } from './types';
 import { generateEnvelopeId } from './utils/crypto';
 import { stampDocument } from './utils/pdfStamper';
@@ -28,7 +27,6 @@ export function App() {
   const [isCompletionModalOpen, setIsCompletionModalOpen] = useState(false);
   const [isAuditViewerOpen, setIsAuditViewerOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
-  const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
 
   // Signing progress & result
   const [isSigning, setIsSigning] = useState(false);
@@ -106,7 +104,7 @@ export function App() {
       action: 'DOCUMENT_CREATED',
       actorName: signerName,
       actorEmail: signerEmail,
-      ipAddress: 'Cloudflare Edge (Protected)',
+      ipAddress: 'Authenticated Web Session (TLS)',
       userAgent: navigator.userAgent,
       sha256Checksum: data.sha256Hash,
       timestamp: new Date().toISOString().replace('T', ' ').slice(0, 19),
@@ -171,7 +169,7 @@ export function App() {
         action: 'SIGNATURE_ADDED',
         actorName: name,
         actorEmail: signerEmail,
-        ipAddress: 'Cloudflare Edge (Protected)',
+        ipAddress: 'Authenticated Web Session (TLS)',
         userAgent: navigator.userAgent,
         timestamp: new Date().toISOString().replace('T', ' ').slice(0, 19),
         details: `Signer adopted electronic signature via method: ${mode.toUpperCase()}`,
@@ -197,7 +195,7 @@ export function App() {
         documentTitle: currentDoc.title,
         signerName,
         signerEmail,
-        ipAddress: 'Cloudflare Edge IP Verified',
+        ipAddress: 'Verified Network Session',
         appendCertificate: true,
       });
 
@@ -212,7 +210,7 @@ export function App() {
         action: 'DOCUMENT_SIGNED',
         actorName: signerName,
         actorEmail: signerEmail,
-        ipAddress: 'Cloudflare Edge IP Verified',
+        ipAddress: 'Verified Network Session',
         userAgent: navigator.userAgent,
         sha256Checksum: stampResult.signedHash,
         timestamp: stampResult.completedAt.replace('T', ' ').slice(0, 19),
@@ -274,7 +272,6 @@ export function App() {
       <Header
         onNewDocument={() => setCurrentDoc(null)}
         onOpenHistory={() => setIsHistoryModalOpen(true)}
-        onOpenArchitecture={() => setIsGuideModalOpen(true)}
         historyCount={documentsHistory.length}
       />
 
@@ -361,12 +358,6 @@ export function App() {
           }
         }}
         onDeleteDocument={handleDeleteHistory}
-      />
-
-      {/* Cloudflare Only + GitHub CI/CD Modal */}
-      <CloudflareGuideModal
-        isOpen={isGuideModalOpen}
-        onClose={() => setIsGuideModalOpen(false)}
       />
     </div>
   );

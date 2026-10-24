@@ -112,7 +112,7 @@ export async function stampDocument(options: StampOptions): Promise<StampResult>
     documentTitle,
     signerName,
     signerEmail = 'signer@example.com',
-    ipAddress = 'Cloudflare Edge (Protected)',
+    ipAddress = 'Encrypted TLS Session',
     appendCertificate = true,
   } = options;
 
@@ -242,7 +242,7 @@ export async function stampDocument(options: StampOptions): Promise<StampResult>
         color: rgb(1, 1, 0.773), // Fraoula Cream #FFFFC5
       });
 
-      certPage.drawText('Secured via Cloudflare Edge Network | Cryptographic Tamper-Evident Audit Record', {
+      certPage.drawText('Official Certificate of Completion | Tamper-Evident Audit Record', {
         x: 40,
         y: cH - 65,
         size: 9,
@@ -337,7 +337,7 @@ export async function stampDocument(options: StampOptions): Promise<StampResult>
         color: rgb(0.3, 0.35, 0.45),
       });
 
-      certPage.drawText('Security Level: Cloudflare Zero Trust / Edge IP Verified', {
+      certPage.drawText('Security Level: Authenticated & Cryptographically Sealed', {
         x: 40,
         y: currentY - 30,
         size: 8.5,
@@ -450,7 +450,7 @@ export async function stampDocument(options: StampOptions): Promise<StampResult>
         currentY -= 11;
       }
 
-      // Cloudflare Edge Security Seal Badge
+      // Cryptographic Security Seal Badge
       currentY = currentY - 30;
       certPage.drawRectangle({
         x: 40,
@@ -462,7 +462,7 @@ export async function stampDocument(options: StampOptions): Promise<StampResult>
         borderWidth: 1,
       });
 
-      certPage.drawText('VERIFIED AUDIT LOG STORED IN CLOUDFLARE D1 & R2', {
+      certPage.drawText('VERIFIED & SEALED ELECTRONIC AUDIT RECORD', {
         x: 55,
         y: currentY - 5,
         size: 9,
@@ -470,7 +470,7 @@ export async function stampDocument(options: StampOptions): Promise<StampResult>
         color: rgb(0.1, 0.5, 0.2),
       });
 
-      certPage.drawText(`Tamper-evident record sealed at Cloudflare Edge. Envelope Token: ${envelopeId}`, {
+      certPage.drawText(`Tamper-evident record sealed with cryptographic hash verification. Envelope ID: ${envelopeId}`, {
         x: 55,
         y: currentY - 20,
         size: 7.5,

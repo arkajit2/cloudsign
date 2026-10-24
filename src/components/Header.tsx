@@ -1,17 +1,15 @@
 import React from 'react';
-import { PenLine, Cloud, Shield, PlusCircle, History, BookOpen, GitBranch } from 'lucide-react';
+import { PenLine, PlusCircle, History } from 'lucide-react';
 
 interface HeaderProps {
   onNewDocument: () => void;
   onOpenHistory: () => void;
-  onOpenArchitecture: () => void;
   historyCount: number;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   onNewDocument,
   onOpenHistory,
-  onOpenArchitecture,
   historyCount,
 }) => {
   return (
@@ -26,49 +24,24 @@ export const Header: React.FC<HeaderProps> = ({
 
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-lg font-extrabold tracking-tight text-[#FFFFC5] flex items-center gap-2">
+            <h1 className="text-lg font-extrabold tracking-tight text-[#FFFFC5]">
               CloudSign
-              <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 bg-[rgba(255,255,197,0.1)] text-[#FFFFC5] border border-[rgba(255,255,197,0.25)] rounded-full">
-                Zero-Trust Edge
-              </span>
             </h1>
+            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 bg-[rgba(255,255,197,0.08)] text-[#FFFFC5] border border-[rgba(255,255,197,0.2)] rounded-full">
+              Secure
+            </span>
           </div>
-          <p className="text-[11px] text-[rgba(255,255,197,0.7)] font-medium">
-            Next-Gen Serverless eSignatures
+          <p className="text-[11px] text-[rgba(255,255,197,0.65)] font-medium">
+            Electronic Document Signing & Verification
           </p>
         </div>
-      </div>
-
-      {/* Stack Badges */}
-      <div className="hidden lg:flex items-center gap-2.5 text-[11px] text-[rgba(255,255,197,0.75)]">
-        <span className="flex items-center gap-1.5 px-3 py-1 bg-[rgba(255,255,197,0.06)] border border-[rgba(255,255,197,0.18)] rounded-full">
-          <Cloud className="w-3.5 h-3.5 text-[#FFFFC5]" />
-          Pages + Edge Functions
-        </span>
-        <span className="flex items-center gap-1.5 px-3 py-1 bg-[rgba(255,255,197,0.06)] border border-[rgba(255,255,197,0.18)] rounded-full">
-          <Shield className="w-3.5 h-3.5 text-[#FFFFC5]" />
-          D1 SQLite & R2 Vault
-        </span>
-        <span className="flex items-center gap-1.5 px-3 py-1 bg-[rgba(255,255,197,0.06)] border border-[rgba(255,255,197,0.18)] rounded-full">
-          <GitBranch className="w-3.5 h-3.5 text-[#FFFFC5]" />
-          GitHub CI/CD
-        </span>
       </div>
 
       {/* Header Actions */}
       <div className="flex items-center gap-3">
         <button
-          onClick={onOpenArchitecture}
-          className="px-3.5 py-1.5 text-xs font-semibold text-[#FFFFC5] hover:text-[#FFFFC5] bg-[rgba(255,255,197,0.06)] hover:bg-[rgba(255,255,197,0.12)] border border-[rgba(255,255,197,0.25)] hover:border-[rgba(255,255,197,0.5)] rounded-full transition flex items-center gap-1.5"
-          title="Cloudflare Architecture & CI/CD Guide"
-        >
-          <BookOpen className="w-3.5 h-3.5 text-[#FFFFC5]" />
-          <span className="hidden sm:inline">Edge Guide</span>
-        </button>
-
-        <button
           onClick={onOpenHistory}
-          className="px-3.5 py-1.5 text-xs font-semibold text-[#FFFFC5] bg-[rgba(255,255,197,0.06)] hover:bg-[rgba(255,255,197,0.12)] border border-[rgba(255,255,197,0.25)] hover:border-[rgba(255,255,197,0.5)] rounded-full transition flex items-center gap-1.5 relative"
+          className="px-4 py-1.5 text-xs font-semibold text-[#FFFFC5] bg-[rgba(255,255,197,0.06)] hover:bg-[rgba(255,255,197,0.12)] border border-[rgba(255,255,197,0.25)] hover:border-[rgba(255,255,197,0.5)] rounded-full transition flex items-center gap-2"
         >
           <History className="w-3.5 h-3.5 text-[#FFFFC5]" />
           <span>Documents</span>
@@ -81,10 +54,10 @@ export const Header: React.FC<HeaderProps> = ({
 
         <button
           onClick={onNewDocument}
-          className="px-4 py-1.5 text-xs font-extrabold text-[#341539] bg-[#FFFFC5] hover:bg-[#fffff0] rounded-full shadow-[0_4px_16px_rgba(255,255,197,0.25)] hover:shadow-[0_6px_24px_rgba(255,255,197,0.4)] hover:-translate-y-0.5 transition flex items-center gap-1.5"
+          className="px-5 py-1.5 text-xs font-extrabold text-[#341539] bg-[#FFFFC5] hover:bg-[#fffff0] rounded-full shadow-[0_4px_16px_rgba(255,255,197,0.25)] hover:shadow-[0_6px_24px_rgba(255,255,197,0.4)] hover:-translate-y-0.5 transition flex items-center gap-1.5"
         >
           <PlusCircle className="w-3.5 h-3.5 stroke-[2.5]" />
-          <span>Upload PDF</span>
+          <span>Upload Document</span>
         </button>
       </div>
     </header>

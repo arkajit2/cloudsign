@@ -41,7 +41,7 @@ export const AuditTrailViewer: React.FC<AuditTrailViewerProps> = ({
             <div>
               <h3 className="text-lg font-bold text-[#FFFFC5]">Certificate of Completion</h3>
               <p className="text-xs text-[rgba(255,255,197,0.65)]">
-                Tamper-evident audit trail secured by Cloudflare Edge & D1
+                Tamper-evident audit trail & cryptographic record
               </p>
             </div>
           </div>
@@ -106,7 +106,7 @@ export const AuditTrailViewer: React.FC<AuditTrailViewerProps> = ({
                 <div className="text-[11px] text-[rgba(255,255,197,0.6)] pt-1 flex items-center gap-4">
                   <span className="flex items-center gap-1">
                     <Globe className="w-3.5 h-3.5 text-[#FFFFC5]" />
-                    Cloudflare Edge Routing
+                    Encrypted Network Routing
                   </span>
                   <span>Security Level: Fingerprint Verified</span>
                 </div>

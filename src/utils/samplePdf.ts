@@ -70,7 +70,7 @@ export async function createSampleAgreementPdf(): Promise<Uint8Array> {
   // Party A (Company)
   page.drawText('COMPANY REPRESENTATIVE:', { x: 50, y: yOffset, size: 9, font: timesRomanBold });
   page.drawLine({ start: { x: 50, y: yOffset - 40 }, end: { x: 250, y: yOffset - 40 }, thickness: 0.8, color: rgb(0.5, 0.5, 0.5) });
-  page.drawText('Signature: Cloudflare Authorized Signatory', { x: 50, y: yOffset - 35, size: 9, font: helvetica, color: rgb(0.1, 0.3, 0.6) });
+  page.drawText('Signature: Authorized Corporate Signatory', { x: 50, y: yOffset - 35, size: 9, font: helvetica, color: rgb(0.1, 0.3, 0.6) });
   page.drawText('Date: ' + new Date().toISOString().split('T')[0], { x: 50, y: yOffset - 55, size: 8.5, font: helvetica, color: rgb(0.4, 0.4, 0.4) });
 
   // Party B (Signer - Target for user to sign!)
